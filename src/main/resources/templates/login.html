@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block>
+        <div th:replace="~{fragments/head}"></div>
+    </th:block>
+</head>
+<body>
+    <th:block>
+        <div th:replace="~{fragments/navbar}"></div>
+    </th:block>
+
+    <div class="container mt-4 mb-5">
+        <h1>Login</h1>
+        <!--/*@thymesVar id="userLoginDto" type="org.movies.system.models.binding.UserLoginDto"*/-->
+        <form class="mt-4" th:action="@{/login}" method="POST" th:object="${userLoginDto}">
+            <!--/*@thymesVar id="error" type="java.lang.String"*/-->
+            <th:block th:if="${error != null}">
+                <h4 th:text="${error}" style="color: red"></h4>
+            </th:block>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" th:value="${userLoginDto.username}" class="form-control" name="username" id="username" th:classappend="${#fields.hasErrors('username')}? 'is-invalid'"/>
+                <small style="color: red" id="nameHelp" th:each="error : ${#fields.errors('username')}" th:text="${error}"></small>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" name="password" id="password" th:classappend="${#fields.hasErrors('password')}? 'is-invalid'" />
+                <small style="color: red" id="passwordHelp" th:each="error : ${#fields.errors('password')}" th:text="${error}"></small>
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+    </div>
+</body>
+</html>

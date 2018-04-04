@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Unauthorized Page</title>
+</head>
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+    }
+
+    html {
+        display: block;
+    }
+
+    body {
+        font-family: "Whitney SSm A", "Whitney SSm B", "Helvetica Neue", Helvetica, Arial, Sans-Serif, serif;
+        background-color: #2D72D9;
+        color: #fff;
+        -moz-font-smoothing: antialiased;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+    }
+
+    body {
+        display: block;
+        margin: 8px;
+    }
+
+    .error-container {
+        text-align: center;
+        height: 100%;
+    }
+
+    a {
+        text-decoration: none firebrick;
+    }
+
+    .error-container h1 {
+        font-size: 220px;
+    }
+
+    .error-container h1 {
+        position: relative;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+
+    .error-container h1 {
+        margin: 0;
+        font-size: 130px;
+        font-weight: 300;
+    }
+
+</style>
+<body>
+<div class="error-container">
+    <h1>403</h1>
+    <h3>Unauthorized action!</h3>
+    <p class="return">Take me back to <a th:href="@{/}">Flight System project</a></p>
+</div>
+</body>
+</html>

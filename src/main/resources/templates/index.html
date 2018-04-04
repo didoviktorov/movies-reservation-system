@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Flight System</title>
+    <th:block>
+        <div th:replace="~{fragments/head}"></div>
+    </th:block>
+</head>
+<body>
+    <th:block>
+        <div th:replace="~{fragments/navbar}"></div>
+    </th:block>
+    <div sec:au class="container-fluid" sec:authorize="isAuthenticated()">
+        <h3>Hello, <span sec:authentication="name"></span></h3>
+    </div>
+
+</body>
+</html>

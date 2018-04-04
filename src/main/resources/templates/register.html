@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block>
+        <div th:replace="~{fragments/head}"></div>
+    </th:block>
+</head>
+<body>
+    <th:block>
+        <div th:replace="~{fragments/navbar}"></div>
+    </th:block>
+
+    <div class="container mt-4 mb-5">
+        <h1>Register</h1>
+        <!--/*@thymesVar id="userRegisterDto" type="org.softuni.residentevil.models.binding.UserRegisterDto"*/-->
+        <form class="mt-4" th:action="@{/register}" method="POST" th:object="${userRegisterDto}">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" th:value="${userRegisterDto.username}" class="form-control" name="username" id="username" aria-describedby="usernameHelp" th:classappend="${#fields.hasErrors('username')}? 'is-invalid'" />
+                <small style="color: red" id="usernameHelp" th:each="error : ${#fields.errors('username')}" th:text="${error}"></small>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" th:value="${userRegisterDto.email}" class="form-control" name="email" id="email" aria-describedby="emailHelp" th:classappend="${#fields.hasErrors('email')}? 'is-invalid'" />
+                <small style="color: red" id="emailHelp" th:each="error : ${#fields.errors('email')}" th:text="${error}"></small>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" name="password" id="password" aria-describedby="passwordHelp" th:classappend="${#fields.hasErrors('password')}? 'is-invalid'" />
+                <small style="color: red" id="passwordHelp" th:each="error : ${#fields.errors('password')}" th:text="${error}"></small>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" aria-describedby="confirmPasswordHelp" th:classappend="${#fields.hasErrors('confirmPassword')}? 'is-invalid'" />
+                <small style="color: red" id="confirmPasswordHelp" th:each="error : ${#fields.errors('confirmPassword')}" th:text="${error}"></small>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </div>
+</body>
+</html>
