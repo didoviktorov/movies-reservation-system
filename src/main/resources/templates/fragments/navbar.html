@@ -16,11 +16,11 @@
             <li sec:authorize="isAuthenticated()" class="nav-item dropdown disabled">
                 <a class="nav-link dropdown-toggle nav-link-white" href="#" id="navbarDropdown" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Flights
+                    Movies
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" class="dropdown-item" href="/flights/show">Show</a>
-                    <a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" href="/flights/add">Add</a>
+                    <a sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" class="dropdown-item" href="/movies/show">Show</a>
+                    <a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" href="/movies/add">Add</a>
                 </div>
             </li>
             <li sec:authorize="isAuthenticated()" class="nav-item">

@@ -1,6 +1,6 @@
 package org.movies.system.controllers;
 
-import org.movies.system.services.CapitalService;
+import org.movies.system.services.CityService;
 import org.movies.system.services.RoleService;
 import org.movies.system.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +11,13 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController extends BaseController {
 
-    private CapitalService capitalService;
+    private CityService cityService;
     private RoleService roleService;
     private UserService userService;
 
     @Autowired
-    public HomeController(CapitalService capitalService, RoleService roleService, UserService userService) {
-        this.capitalService = capitalService;
+    public HomeController(CityService cityService, RoleService roleService, UserService userService) {
+        this.cityService = cityService;
         this.roleService = roleService;
         this.userService = userService;
 
@@ -39,8 +39,8 @@ public class HomeController extends BaseController {
             this.userService.seedUser();
         }
 
-        if (this.capitalService.capitalCount() == 0) {
-            this.capitalService.seedCapitals();
+        if (this.cityService.cityCount() == 0) {
+            this.cityService.seedCities();
         }
     }
 }

@@ -5,8 +5,8 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "capitals")
-public class Capital {
+@Table(name = "cities")
+public class City {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -18,11 +18,7 @@ public class Capital {
 
     private String name;
 
-    private Double latitude;
-
-    private Double longitude;
-
-    public Capital() {
+    public City() {
     }
 
     public String getId() {
@@ -39,21 +35,5 @@ public class Capital {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
     }
 }

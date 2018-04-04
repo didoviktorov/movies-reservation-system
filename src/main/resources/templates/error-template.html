@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block>
+        <div th:replace="~{fragments/head}"></div>
+    </th:block>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/error.css}">
+</head>
+<body>
+<div class="container">
+    <div class="logo">
+        <p>Resident Evil</p>
+    </div>
+    <div class="title">
+        <h1>You've Failed</h1>
+        <!--/*@thymesVar id="error" type="java.lang.String"*/-->
+        <h2 th:text="${error}"></h2>
+    </div>
+</div>
+
+<div class="container">
+    <div class="gray">
+        <a th:href="@{/}" class="ag-3d_button orange">Go Back </a>
+    </div>
+</div>
+
+</body>
+</html>
