@@ -1,5 +1,6 @@
 package org.movies.system.services;
 
+import org.movies.system.exceptions.BadRequestException;
 import org.movies.system.models.binding.UserRegisterDto;
 import org.movies.system.models.view.UserEditDto;
 import org.movies.system.models.entities.Role;
@@ -15,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -41,6 +44,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public Long userCount() {
         return this.userRepository.count();
+    }
+
+    @Override
+    public List<User> findAllUsers() {
+        return this.userRepository.findAll();
     }
 
     @Override
@@ -89,6 +97,45 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public UserEditDto findEditUser(String id) {
+        UserEditDto userEditDto = new UserEditDto();
+        User user = this.findFirstById(id);
+
+        this.checkUser(user);
+
+        this.modelMapper.map(user, userEditDto);
+
+        Set<String> editUserRoles = user.getRoles().stream()
+                .map(Role::getName)
+                .collect(Collectors.toSet());
+
+        userEditDto.setRoles(editUserRoles);
+
+        return userEditDto;
+    }
+
+    @Override
+    public void editUser(String id, UserEditDto userEditDto) {
+        User user = this.findFirstById(id);
+        this.checkUser(user);
+
+        user.setEmail(userEditDto.getEmail());
+        user.setUsername(userEditDto.getUsername());
+
+        user.setRoles(new HashSet<>());
+        for (String roleName : userEditDto.getRoles()) {
+            Role role = this.roleService.findFirstByName(roleName);
+
+            role.getUsers().add(user);
+            user.getRoles().add(role);
+
+            this.roleService.save(role);
+        }
+
+        this.userRepository.save(user);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = this.userRepository.findFirstByUsername(username);
         if (user == null) {
@@ -106,5 +153,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 roles
         );
         return userDetails;
+    }
+
+    private void checkUser(User user) {
+        if (user == null) {
+            throw new BadRequestException();
+        }
     }
 }

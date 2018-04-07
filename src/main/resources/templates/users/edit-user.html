@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block>
+        <div th:replace="~{fragments/head}"></div>
+    </th:block>
+</head>
+<body>
+    <th:block>
+        <div th:replace="~{fragments/navbar}"></div>
+    </th:block>
+
+    <div class="container mt-4 mb-5">
+        <h1>Edit User</h1>
+        <form class="mt-4" th:action="@{/edit/user/{id} (id=${userId})}" method="POST" th:object="${userEditDto}">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text"  th:value="${userEditDto.username}" class="form-control" name="username" id="username" aria-describedby="nameHelp" th:classappend="${#fields.hasErrors('username')}? 'is-invalid'" />
+                <small style="color: red" id="nameHelp" th:each="error : ${#fields.errors('username')}" th:text="${error}"></small>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" th:value="${userEditDto.email}" class="form-control" name="email" id="email" aria-describedby="emailHelp" th:classappend="${#fields.hasErrors('email')}? 'is-invalid'" />
+                <small style="color: red" id="emailHelp" th:each="error : ${#fields.errors('email')}" th:text="${error}"></small>
+            </div>
+            <div class="form-group">
+                <label for="roles">User Roles</label>
+                <select multiple class="form-control" id="roles" name="roles">
+                    <th:block th:each="role : ${roles}">
+                        <option th:selected="${#lists.contains(userEditDto.roles, role.getName())}" th:text="${role.getName()}"></option>
+                    </th:block>
+                </select>
+                <small style="color: red" id="rolesHelp" th:each="error : ${#fields.errors('roles')}" th:text="${error}"></small>
+            </div>
+            <button type="submit" class="btn btn-primary">Edit</button>
+        </form>
+    </div>
+    <th:block th:replace="~{fragments/footer}">
+    </th:block>
+</body>
+</html>

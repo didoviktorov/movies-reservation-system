@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block>
+        <div th:replace="~{fragments/head}"></div>
+    </th:block>
+</head>
+<body>
+<th:block>
+    <div th:replace="~{fragments/navbar}"></div>
+</th:block>
+
+<div class="container mt-4 mb-5">
+    <h2>Users</h2>
+    <table class="table mt-4">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Username</th>
+            <th scope="col">Email</th>
+            <th scope="col">Roles</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--/*@thymesVar id="users" type="java.util.List<org.movies.system.models.entities.User>"*/-->
+        <th:block th:each="user, iterUser : ${users}">
+            <tr th:if="${#authentication.principal.getUsername() != user.username}">
+                <td th:text="${iterUser.index + 1}"></td>
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.email}"></td>
+                <td>
+                    <th:block th:each="role, iter: ${user.roles}">
+                        <span th:text="${role.name}"></span>
+                        <th:block th:if="${!iter.last}">,</th:block>
+                    </th:block>
+                </td>
+                <td>
+                    <a class="btn btn-secondary" role="button" th:href="@{/edit/user/{id} (id=${user.id})}">Edit</a>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+<th:block th:replace="~{fragments/footer}">
+</th:block>
+</body>
+</html>

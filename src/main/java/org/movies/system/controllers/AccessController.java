@@ -1,15 +1,15 @@
 package org.movies.system.controllers;
 
+import org.movies.system.exceptions.UnauthorizedRequestException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.servlet.ModelAndView;
+
 
 @Controller
-public class AccessController extends BaseController {
+public class AccessController {
 
     @GetMapping("/unauthorized")
-    public ModelAndView unauthorized() {
-
-        return this.view("unauthorized");
+    public void unauthorized() {
+        throw new UnauthorizedRequestException();
     }
 }
