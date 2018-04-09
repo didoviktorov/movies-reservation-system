@@ -2,7 +2,7 @@ package org.movies.system.controllers;
 
 import org.movies.system.models.binding.UserLoginDto;
 import org.movies.system.models.binding.UserRegisterDto;
-import org.movies.system.services.UserService;
+import org.movies.system.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -27,12 +27,14 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/register")
+    @PreAuthorize("isAnonymous()")
     public ModelAndView registerUser(@ModelAttribute UserRegisterDto userRegisterDto, Model model) {
         model.addAttribute("userRegisterDto", userRegisterDto);
         return this.view("register");
     }
 
     @PostMapping("/register")
+    @PreAuthorize("isAnonymous()")
     public ModelAndView registerUser(@Valid @ModelAttribute UserRegisterDto userRegisterDto, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return this.view("register");

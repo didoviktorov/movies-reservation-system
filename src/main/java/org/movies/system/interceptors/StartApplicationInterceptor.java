@@ -1,8 +1,8 @@
 package org.movies.system.interceptors;
 
-import org.movies.system.services.CityService;
-import org.movies.system.services.RoleService;
-import org.movies.system.services.UserService;
+import org.movies.system.services.cinema.CinemaService;
+import org.movies.system.services.role.RoleService;
+import org.movies.system.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,13 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class StartApplicationInterceptor extends HandlerInterceptorAdapter {
 
-    private CityService cityService;
+    private CinemaService cinemaService;
     private RoleService roleService;
     private UserService userService;
 
     @Autowired
-    public StartApplicationInterceptor(CityService cityService, RoleService roleService, UserService userService) {
-        this.cityService = cityService;
+    public StartApplicationInterceptor(CinemaService cinemaService, RoleService roleService, UserService userService) {
+        this.cinemaService = cinemaService;
         this.roleService = roleService;
         this.userService = userService;
     }
@@ -39,8 +39,8 @@ public class StartApplicationInterceptor extends HandlerInterceptorAdapter {
             this.userService.seedUser();
         }
 
-        if (this.cityService.cityCount() == 0) {
-            this.cityService.seedCities();
+        if (this.cinemaService.cinemaCount() == 0) {
+            this.cinemaService.seedCinemas();
         }
     }
 }

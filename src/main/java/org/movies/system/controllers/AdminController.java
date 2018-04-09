@@ -1,8 +1,8 @@
 package org.movies.system.controllers;
 
 import org.movies.system.models.view.UserEditDto;
-import org.movies.system.services.RoleService;
-import org.movies.system.services.UserService;
+import org.movies.system.services.role.RoleService;
+import org.movies.system.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;

@@ -23,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/").permitAll()
+                .antMatchers("/", "/css/**", "/js/**").permitAll()
                 .antMatchers("/register").access("isAnonymous()")
                 .antMatchers("/movies/show").access("isAuthenticated()")
                 .antMatchers("/movies/map").access("isAuthenticated()")

@@ -1,5 +1,5 @@
 .navbar-whine {
-    background-color: #900C45;
+    background-color: #6699ff;
 }
 
 .nav-link-white {
@@ -24,7 +24,7 @@
     width: 100%;
     height: 60px;
     line-height: 60px;
-    background-color: #900C45;
+    background-color: #6699ff;
 }
 
 #footer-span {
@@ -38,6 +38,53 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
+    background-color: #F7FDFF;
+}
+
+.loadersmall {
+    border: 5px solid #f3f3f3;
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+    border-top: 5px solid #555;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#loader {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 20vw;
+    object-fit: cover;
+}
+
+.col-sm-6:hover {
+    transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+#movie-poster img {
+    max-height: 100px;
+    min-height: 100px;
+    max-width: 100%;
+}
+
+.movie-row:hover {
+    cursor: pointer;
 }
 
 

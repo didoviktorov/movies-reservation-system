@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block>
+        <div th:replace="~{fragments/head}"></div>
+    </th:block>
+</head>
+<body>
+    <th:block>
+        <div th:replace="~{fragments/navbar}"></div>
+    </th:block>
+
+    <div class="container pt-4 pb-5">
+        <h1>Movie Details</h1>
+        <div class="row">
+            <!--/*@thymesVar id="movie" type="org.springframework.web.servlet.ModelAndView"*/-->
+            <div class="col-md-2">
+                <p><strong>Title: </strong></p>
+                <p th:text="${movie.title}" style="overflow-wrap:break-word;justify-content: center"></p>
+            </div>
+            <div class="col-md-2">
+                <p><strong>Duration: </strong></p>
+                <p th:text="${movie.duration} + ' min.'"></p>
+            </div>
+            <div class="col-md-8">
+                <p><strong>Description: </strong></p>
+                <p th:text="${movie.description}" style="overflow-wrap:break-word;justify-content: center"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <p><strong>Poster: </strong></p>
+                <img  class="img-thumbnail" th:src="${movie.posterUrl}" alt="Poster"/>
+            </div>
+            <div class="col-md-8">
+                <p><strong>Trailer: </strong></p>
+                <div class="embed-responsive embed-responsive-16by9" th:utext="${movie.embedCode}"></div>
+            </div>
+        </div>
+        <div class="row pt-2">
+            <div class="col-md-4">
+                <a class="btn btn-primary" th:href="@{/movies/show}">Back</a>
+            </div>
+        </div>
+    </div>
+    <th:block th:replace="~{fragments/footer}">
+    </th:block>
+</body>
+</html>

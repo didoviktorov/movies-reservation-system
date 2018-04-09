@@ -28,7 +28,7 @@ public class Role {
     }
 
     public String getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(String id) {
@@ -36,7 +36,7 @@ public class Role {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -44,7 +44,7 @@ public class Role {
     }
 
     public Set<User> getUsers() {
-        return users;
+        return this.users;
     }
 
     public void setUsers(Set<User> users) {

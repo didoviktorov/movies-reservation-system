@@ -1,4 +1,4 @@
-package org.movies.system.services;
+package org.movies.system.services.user;
 
 import org.movies.system.exceptions.BadRequestException;
 import org.movies.system.models.binding.UserRegisterDto;
@@ -7,6 +7,8 @@ import org.movies.system.models.entities.Role;
 import org.movies.system.models.entities.User;
 import org.movies.system.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
+import org.movies.system.services.role.RoleService;
+import org.movies.system.utils.EscapeCharacters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -137,7 +139,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = this.userRepository.findFirstByUsername(username);
+        User user = this.userRepository.findFirstByUsername(EscapeCharacters.escape(username));
         if (user == null) {
             throw new UsernameNotFoundException("No Found User");
         }

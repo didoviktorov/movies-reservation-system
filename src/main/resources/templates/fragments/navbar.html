@@ -23,9 +23,6 @@
                     <a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" href="/movies/add">Add</a>
                 </div>
             </li>
-            <li sec:authorize="isAuthenticated()" class="nav-item">
-                <a class="nav-link nav-link-white" href="/map">Map</a>
-            </li>
             <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
                 <a class="nav-link nav-link-white" href="/users">Users</a>
             </li>

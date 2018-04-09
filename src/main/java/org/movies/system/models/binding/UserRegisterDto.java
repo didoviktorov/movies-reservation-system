@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 public class UserRegisterDto {
 
     @NotNull
-    @Size(min = 1, max = 15, message = "Invalid username - maximum size 15 symbols")
+    @Size(min = 1, max = 50, message = "Invalid username - maximum size 15 symbols")
     private String username;
 
     @NotNull

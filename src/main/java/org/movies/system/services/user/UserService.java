@@ -1,4 +1,4 @@
-package org.movies.system.services;
+package org.movies.system.services.user;
 
 import org.movies.system.models.binding.UserRegisterDto;
 import org.movies.system.models.view.UserEditDto;

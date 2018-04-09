@@ -1,4 +1,4 @@
-package org.movies.system.services;
+package org.movies.system.services.role;
 
 import org.movies.system.models.entities.Role;
 

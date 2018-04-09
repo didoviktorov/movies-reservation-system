@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block>
+        <div th:replace="~{fragments/head}"></div>
+    </th:block>
+</head>
+<body>
+    <th:block>
+        <div th:replace="~{fragments/navbar}"></div>
+    </th:block>
+
+    <div class="container pt-4 pb-5">
+        <h1>Edit Movie</h1>
+        <!--/*@thymesVar id="movieBinding" type="org.movies.system.models.binding.MovieBinding"*/-->
+        <!--/*@thymesVar id="movieId" type="java.lang.String"*/-->
+        <form class="mt-4" th:action="@{/edit/movie/{id} (id=${movieId})}" method="POST" th:object="${movieBinding}">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-2" style="height: 100px!important;">
+                        <img class="img-thumbnail mh-100 w-50" id="edit-poster" th:src="${movieBinding.posterUrl}">
+                    </div>
+                    <div class="col-md-10">
+                        <label for="posterUrl">Poster URL</label>
+                        <input type="text" th:value="${movieBinding.posterUrl}"
+                               class="form-control"
+                               name="posterUrl"
+                               onchange="getPosterUlr()"
+                               id="posterUrl"
+                               aria-describedby="posterUrl"
+                               th:classappend="${#fields.hasErrors('posterUrl')}? 'is-invalid'" />
+                    </div>
+                </div>
+
+                <small style="color: red" id="posterUrlHelp" th:each="error : ${#fields.errors('posterUrl')}" th:text="${error}"></small>
+            </div>
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" th:value="${movieBinding.title}" class="form-control" name="title" id="title" aria-describedby="title" th:classappend="${#fields.hasErrors('title')}? 'is-invalid'" />
+                <small style="color: red" id="titleHelp" th:each="error : ${#fields.errors('title')}" th:text="${error}"></small>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea class="form-control" rows="3" th:text="${movieBinding.description}" name="description" id="description" aria-describedby="descriptionHelp" th:classappend="${#fields.hasErrors('description')}? 'is-invalid'"></textarea>
+                <small style="color: red" id="descriptionHelp" th:each="error : ${#fields.errors('description')}" th:text="${error}"></small>
+            </div>
+            <div class="form-group">
+                <label for="duration">Duration minutes</label>
+                <input type="number" th:value="${movieBinding.duration}" class="form-control" name="duration" id="duration" aria-describedby="durationHelp" th:classappend="${#fields.hasErrors('duration')}? 'is-invalid'" />
+                <small style="color: red" id="durationHelp" th:each="error : ${#fields.errors('duration')}" th:text="${error}"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="embedCode">Embed Code for Trailer</label>
+                <input type="text" th:value="${movieBinding.embedCode}" class="form-control" name="embedCode" id="embedCode" aria-describedby="embedCode" th:classappend="${#fields.hasErrors('embedCode')}? 'is-invalid'" />
+                <small style="color: red" id="embedCodeHelp" th:each="error : ${#fields.errors('embedCode')}" th:text="${error}"></small>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Edit Movie</button>
+            <a class="btn btn-primary" href="/movies/show">Cancel</a>
+        </form>
+    </div>
+    <th:block th:replace="~{fragments/footer}">
+    </th:block>
+
+</body>
+</html>

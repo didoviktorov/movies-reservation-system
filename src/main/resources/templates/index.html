@@ -8,14 +8,30 @@
     </th:block>
 </head>
 <body>
-    <th:block>
-        <div th:replace="~{fragments/navbar}"></div>
-    </th:block>
-    <div sec:au class="container-fluid" sec:authorize="isAuthenticated()">
-        <h3>Hello, <span sec:authentication="name"></span></h3>
-    </div>
+<th:block>
+    <div th:replace="~{fragments/navbar}"></div>
+</th:block>
+<div class="container text-center pt-2" sec:authorize="isAuthenticated()">
+    <h5 style="color: #6699ff;">Hello, <span sec:authentication="name"></span></h5>
+</div>
 
-    <th:block th:replace="~{fragments/footer}">
-    </th:block>
+<div class="container text-center pt-4">
+    <h4 style="color: #6699ff;">Please choose a cinema</h4>
+</div>
+
+<div id="loader">
+    <div class="loadersmall"></div>
+</div>
+
+<div class="container mt-4 mb-4 d-flex flex-column" style="display: none"  id="cinemas">
+</div>
+
+<th:block th:replace="~{fragments/footer}">
+</th:block>
+<script type="text/javascript" th:src="@{/js/ajax.js}">
+</script>
+<script type="text/javascript">
+    $(document).ready(getCinemas())
+</script>
 </body>
 </html>
