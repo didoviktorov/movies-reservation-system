@@ -23,6 +23,16 @@
                     <a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" href="/movies/add">Add</a>
                 </div>
             </li>
+            <li sec:authorize="isAuthenticated()" class="nav-item dropdown disabled">
+                <a class="nav-link dropdown-toggle nav-link-white" href="#" id="navbarDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Movies Projections
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a sec:authorize="isAuthenticated()" class="dropdown-item" href="/projections/show">Show</a>
+                    <a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" href="/projections/add">Add</a>
+                </div>
+            </li>
             <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
                 <a class="nav-link nav-link-white" href="/users">Users</a>
             </li>

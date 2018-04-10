@@ -11,4 +11,6 @@ import java.util.List;
 public interface CinemaRepository extends JpaRepository<Cinema, String> {
 
     Cinema findFirstByName(String name);
+
+    Cinema findFirstById(String id);
 }

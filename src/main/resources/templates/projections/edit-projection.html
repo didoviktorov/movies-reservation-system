@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block>
+        <div th:replace="~{fragments/head}"></div>
+    </th:block>
+</head>
+<body>
+    <th:block>
+        <div th:replace="~{fragments/navbar}"></div>
+    </th:block>
+
+    <div class="container pt-4 pb-5">
+        <h1>Edit Projection</h1>
+        <!--/*@thymesVar id="projectionEditBinding" type="org.movies.system.models.binding.ProjectionEditBinding"*/-->
+        <!--/*@thymesVar id="projectionId" type="java.lang.String"*/-->
+        <form class="mt-4" th:action="@{/edit/projection/{id} (id=${projectionId})}" method="POST" th:object="${projectionEditBinding}">
+            <div class="form-group">
+                <label for="projectionDate">Release Date</label>
+                <input type="date" name="projectionDate" class="form-control" id="projectionDate"
+                       th:classappend="${#fields.hasErrors('projectionDate')}? 'is-invalid'" th:value="${#dates.format(projectionEditBinding.projectionDate, 'yyyy-MM-dd')}"/>
+                <small style="color: red" id="releasedOnHelp" th:each="error : ${#fields.errors('projectionDate')}" th:text="${error}"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="movie">Change Movie</label>
+                <select class="form-control" id="movie" name="movie">
+                    <!--/*@thymesVar id="movies" type="java.util.List<org.movies.system.models.entities.Movie>"*/-->
+                    <th:block th:each="movie : ${movies}">
+                        <option th:value="${movie.id}" th:text="${movie.title}" th:selected="${movie.id.equals(projectionEditBinding.movie.id)}"></option>
+                    </th:block>
+                </select>
+                <small style="color: red" id="movieHelp" th:each="error : ${#fields.errors('movie')}" th:text="${error}"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="cinema">Cinema</label>
+                <input type="text" class="form-control"  th:value="${projectionEditBinding.cinema.name}" disabled/>
+                <select class="form-control" id="cinema" name="cinema" style="display: none;">
+                    <option th:value="${projectionEditBinding.cinema.id}" th:text="${projectionEditBinding.cinema.name}"></option>
+                </select>
+                <small style="color: red" id="cinemaHelp" th:each="error : ${#fields.errors('cinema')}" th:text="${error}"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="hall">Change Hall</label>
+                <select class="form-control" id="hall" name="hall">
+                    <th:block th:each="hall : ${projectionEditBinding.getCinema().getHalls()}">
+                        <option th:value="${hall.id}" th:selected="${hall.id.equals(projectionEditBinding.getHall().id)}" th:text="${hall.getName()}"></option>
+                    </th:block>
+                </select>
+                <small style="color: red" id="hallHelp" th:each="error : ${#fields.errors('hall')}" th:text="${error}"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="hours">Hours</label>
+                <select multiple class="form-control" id="hours" name="hours" th:with="strList = ${projectionEditBinding.getHours().split(',')}">
+                    <option th:selected="${#lists.contains(strList, '10:00 h')}">10:00 h</option>
+                    <option th:selected="${#lists.contains(strList, '13:00 h')}">13:00 h</option>
+                    <option th:selected="${#lists.contains(strList, '16:00 h')}">16:00 h</option>
+                    <option th:selected="${#lists.contains(strList, '19:00 h')}">19:00 h</option>
+                    <option th:selected="${#lists.contains(strList, '22:00 h')}">22:00 h</option>
+                </select>
+                <small style="color: red" id="hoursHelp" th:each="error : ${#fields.errors('hours')}" th:text="${error}"></small>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Edit Projection</button>
+            <a class="btn btn-primary" href="/">Cancel</a>
+        </form>
+    </div>
+    <th:block th:replace="~{fragments/footer}">
+    </th:block>
+</body>
+</html>

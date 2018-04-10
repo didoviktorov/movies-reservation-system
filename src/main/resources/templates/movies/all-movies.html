@@ -43,8 +43,8 @@
                     : movies.getPageable().getPageNumber() ) * 5 + (iterMovie.index + 1)}"></td>
                     <td class="col-md-2" scope="row" th:text="${movie.title}"></td>
                     <td class="col-md-2" scope="row">
-                        <div class='w-50 p-1'>
-                            <img class="img-thumbnail" th:src="${movie.posterUrl}" alt="Poster" id="movie-poster"/>
+                        <div class='w-50 p-1' id="movie-poster">
+                            <img class="img-thumbnail" th:src="${movie.posterUrl}" alt="Poster" />
                         </div>
 
                     </td>

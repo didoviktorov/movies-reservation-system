@@ -3,8 +3,6 @@ function getCinemas() {
         type: "GET",
         url: "http://localhost:8000/all-cinemas",
         success: function (data) {
-            console.log(data);
-
             var containerDiv = $("#cinemas");
             var divRow = $("<div class='row row-eq-height pt-2 pb-2 justify-content-md-center'></div>");
             for (var i = 0; i < data.length; i++) {

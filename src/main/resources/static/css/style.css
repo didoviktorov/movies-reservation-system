@@ -78,9 +78,10 @@ body {
 }
 
 #movie-poster img {
-    max-height: 100px;
-    min-height: 100px;
+    max-height: 100px !important;
+    min-height: 100px !important;
     max-width: 100%;
+    min-width: inherit;
 }
 
 .movie-row:hover {

@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,6 +18,8 @@ public class Hall {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     private String id;
+
+    private String name;
 
     @ManyToMany
     @JoinTable(
@@ -36,6 +39,14 @@ public class Hall {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Set<Seat> getSeats() {

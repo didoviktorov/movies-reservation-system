@@ -23,4 +23,9 @@ public class HallServiceImpl implements HallService {
     public void save(Hall hall) {
         this.hallRepository.save(hall);
     }
+
+    @Override
+    public Hall findById(String id) {
+        return this.hallRepository.findFirstById(id);
+    }
 }

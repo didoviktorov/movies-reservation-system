@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block>
+        <div th:replace="~{fragments/head}"></div>
+    </th:block>
+</head>
+<body>
+    <th:block>
+        <div th:replace="~{fragments/navbar}"></div>
+    </th:block>
+
+    <div class="container pt-4 pb-5">
+        <h1>Add Projection</h1>
+        <!--/*@thymesVar id="projectionBinding" type="org.movies.system.models.binding.ProjectionBinding"*/-->
+        <form class="mt-4" th:action="@{/projections/add}" method="POST" th:object="${projectionBinding}">
+            <div class="form-group">
+                <label for="projectionDate">Release Date</label>
+                <input type="date" name="projectionDate" class="form-control" id="projectionDate"
+                       th:classappend="${#fields.hasErrors('projectionDate')}? 'is-invalid'" th:value="${#dates.format(projectionBinding.projectionDate, 'yyyy-MM-dd')}"/>
+                <small style="color: red" id="releasedOnHelp" th:each="error : ${#fields.errors('projectionDate')}" th:text="${error}"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="movie">Choose Movie</label>
+                <select class="form-control" id="movie" name="movie">
+                    <!--/*@thymesVar id="movies" type="java.util.List<org.movies.system.models.entities.Movie>"*/-->
+                    <th:block th:each="movie : ${movies}">
+                        <option th:value="${movie.id}" th:text="${movie.title}" th:selected="${movie.id.equals(projectionBinding.movie)}"></option>
+                    </th:block>
+                </select>
+                <small style="color: red" id="movieHelp" th:each="error : ${#fields.errors('movie')}" th:text="${error}"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="cinema">Choose Cinema</label>
+                <select class="form-control" id="cinema" name="cinema" onchange="getHalls()">
+                    <option></option>
+                </select>
+                <small style="color: red" id="cinemaHelp" th:each="error : ${#fields.errors('cinema')}" th:text="${error}"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="hall">Choose Hall</label>
+                <select class="form-control" id="hall" name="hall">
+                    <option></option>
+                </select>
+                <small style="color: red" id="hallHelp" th:each="error : ${#fields.errors('hall')}" th:text="${error}"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="hours">Hours</label>
+                <select multiple class="form-control" id="hours" name="hours">
+                    <option>10:00 h</option>
+                    <option>13:00 h</option>
+                    <option>16:00 h</option>
+                    <option>19:00 h</option>
+                    <option>22:00 h</option>
+                </select>
+                <small style="color: red" id="hoursHelp" th:each="error : ${#fields.errors('hours')}" th:text="${error}"></small>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Projection</button>
+            <a class="btn btn-primary" href="/">Cancel</a>
+        </form>
+    </div>
+    <th:block th:replace="~{fragments/footer}">
+    </th:block>
+    <script type="text/javascript">
+        $(document).ready(getAllCinemas())
+    </script>
+</body>
+</html>

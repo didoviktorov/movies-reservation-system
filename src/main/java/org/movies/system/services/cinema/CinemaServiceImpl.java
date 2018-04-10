@@ -17,6 +17,8 @@ import java.util.List;
 @Transactional
 public class CinemaServiceImpl implements CinemaService {
 
+    private static final int DEFAULT_HALLS_NUMBER = 2;
+
     private static final int DEFAULT_HALL_SEATS = 100;
 
     private CinemaRepository cinemaRepository;
@@ -48,6 +50,11 @@ public class CinemaServiceImpl implements CinemaService {
     }
 
     @Override
+    public Cinema findById(String id) {
+        return this.cinemaRepository.findFirstById(id);
+    }
+
+    @Override
     public void seedCinemas() {
         List<String> cinemasCities = new ArrayList<>() {{
             add("Varna");
@@ -71,17 +78,21 @@ public class CinemaServiceImpl implements CinemaService {
             currentCinema.setName(cinemasCities.get(i));
             currentCinema.setImageUrl(imgUrls.get(i));
             currentCinema.setAddress(addresses.get(i));
-            Hall currentHall = new Hall();
-            for (int j = 1; j <= DEFAULT_HALL_SEATS; j++) {
-                Seat currentSeat = new Seat();
-                currentSeat.setOccupied(false);
-                currentSeat.setSeatNumber(j);
-                currentHall.getSeats().add(currentSeat);
-                this.seatService.save(currentSeat);
-                this.hallService.save(currentHall);
+
+            for (int k = 0; k < DEFAULT_HALLS_NUMBER; k++) {
+                Hall currentHall = new Hall();
+                currentHall.setName("Hall " + (k + 1));
+                for (int j = 1; j <= DEFAULT_HALL_SEATS; j++) {
+                    Seat currentSeat = new Seat();
+                    currentSeat.setOccupied(false);
+                    currentSeat.setSeatNumber(j);
+                    currentHall.getSeats().add(currentSeat);
+                    this.seatService.save(currentSeat);
+                    this.hallService.save(currentHall);
+                }
+                currentCinema.getHalls().add(currentHall);
             }
 
-            currentCinema.getHalls().add(currentHall);
             this.cinemaRepository.save(currentCinema);
         }
     }

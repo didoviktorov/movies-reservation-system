@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -32,6 +33,11 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public Movie findById(String id) {
+        return this.movieRepository.findFirstById(id);
+    }
+
+    @Override
     public void save(MovieBinding movieBinding) {
         Movie movie = this.modelMapper.map(movieBinding, Movie.class);
         this.movieRepository.save(movie);
@@ -43,6 +49,11 @@ public class MovieServiceImpl implements MovieService {
         movie.setId(id);
 
         this.movieRepository.save(movie);
+    }
+
+    @Override
+    public List<Movie> findAll() {
+        return this.movieRepository.findAll();
     }
 
     @Override

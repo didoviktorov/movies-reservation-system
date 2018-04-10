@@ -65,7 +65,7 @@ public class MovieController extends BaseController {
     }
 
     @GetMapping("/edit/movie/{id}")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
     public ModelAndView editMovie(@PathVariable String id) {
         String[] names = {"movieBinding", "movieId"};
         Object[] objects = {this.movieService.getEditMovie(id), id};
@@ -73,7 +73,7 @@ public class MovieController extends BaseController {
     }
 
     @PostMapping("/edit/movie/{id}")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
     public ModelAndView editMovie(@PathVariable String id, @Valid @ModelAttribute MovieBinding movieBinding, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String[] names = {"movieBinding", "movieId"};
@@ -88,6 +88,7 @@ public class MovieController extends BaseController {
     }
 
     @GetMapping("/delete/movie/{id}")
+    @PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
     public ModelAndView deleteVirus(@PathVariable String id) {
         this.movieService.delete(id);
 

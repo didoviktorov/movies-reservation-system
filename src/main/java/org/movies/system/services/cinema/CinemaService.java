@@ -12,5 +12,7 @@ public interface CinemaService {
 
     List<Cinema> findAll();
 
+    Cinema findById(String id);
+
     void seedCinemas();
 }
