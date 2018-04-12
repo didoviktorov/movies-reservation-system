@@ -24,4 +24,6 @@ public interface ProjectionService {
     ProjectionEditBinding getEditProjection(String id);
 
     void delete(String id);
+
+    boolean validProjection(ProjectionBinding projectionBinding, ProjectionEditBinding projectionEditBinding);
 }

@@ -14,6 +14,10 @@
         <h1>Add Projection</h1>
         <!--/*@thymesVar id="projectionBinding" type="org.movies.system.models.binding.ProjectionBinding"*/-->
         <form class="mt-4" th:action="@{/projections/add}" method="POST" th:object="${projectionBinding}">
+            <th:block th:if="${error}">
+                <!--/*@thymesVar id="error" type="java.lang.String"*/-->
+                <h6 th:text="${error}" style="color: red"></h6>
+            </th:block>
             <div class="form-group">
                 <label for="projectionDate">Release Date</label>
                 <input type="date" name="projectionDate" class="form-control" id="projectionDate"

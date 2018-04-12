@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -77,5 +79,38 @@ public class ProjectionServiceImpl implements ProjectionService {
     @Override
     public void delete(String id) {
         this.projectionRepository.delete(this.projectionRepository.findFirstById(id));
+    }
+
+    public boolean validProjection(ProjectionBinding projectionBinding, ProjectionEditBinding projectionEditBinding) {
+        List<Projection> allProjections = this.projectionRepository.findAll();
+        boolean isSameCinema;
+        boolean isSameHall;
+        boolean isSameDate;
+        for (Projection currentProjection : allProjections) {
+            if (projectionBinding != null) {
+                isSameCinema = currentProjection.getCinema().getId().equals(projectionBinding.getCinema());
+                isSameHall = currentProjection.getHall().getId().equals(projectionBinding.getHall());
+                isSameDate = currentProjection.getProjectionDate().compareTo(projectionBinding.getProjectionDate()) == 0;
+            } else {
+                isSameCinema = currentProjection.getCinema().getId().equals(projectionEditBinding.getCinema().getId());
+                isSameHall = currentProjection.getHall().getId().equals(projectionEditBinding.getHall().getId());
+                isSameDate = currentProjection.getProjectionDate().compareTo(projectionEditBinding.getProjectionDate()) == 0;
+            }
+
+
+            if (isSameCinema && isSameHall && isSameDate) {
+                String[] projectionHours =
+                        projectionBinding != null ?
+                                projectionBinding.getHours().split(",")
+                                : projectionEditBinding.getHours().split(",");
+                for (String projectionHour : projectionHours) {
+                    if (currentProjection.getHours().contains(projectionHour)) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 }

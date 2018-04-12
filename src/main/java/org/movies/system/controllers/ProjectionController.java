@@ -24,6 +24,8 @@ import javax.validation.Valid;
 @Controller
 public class ProjectionController extends BaseController {
 
+    private static final String INVALID_PROJECTION_MESSAGE = "Invalid Projection choose different date, cinema, hall or hours!";
+
     private ProjectionService projectionService;
 
     private MovieService movieService;
@@ -36,12 +38,12 @@ public class ProjectionController extends BaseController {
 
     @GetMapping("/projections/show")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView allProjections(@PageableDefault(size = 5)Pageable pageable) {
+    public ModelAndView allProjections(@PageableDefault(size = 5) Pageable pageable) {
         String[] names = {"projections", "page_count"};
 
         Page<Projection> projections = this.projectionService.findAllProjections(pageable);
 
-        Object[] objects = {projections.getTotalPages() == 0 ? null : projections, this.projectionService.projectionsCount() / 5 };
+        Object[] objects = {projections.getTotalPages() == 0 ? null : projections, this.projectionService.projectionsCount() / 5};
 
         return this.view("projections/all-projections", names, objects);
     }
@@ -49,22 +51,18 @@ public class ProjectionController extends BaseController {
     @GetMapping("/projections/add")
     @PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
     public ModelAndView addProjection(@ModelAttribute ProjectionBinding projectionBinding) {
-        String[] names = {"projectionBinding", "movies"};
-
-        Object[] objects = { new ProjectionBinding(), this.movieService.findAll() };
-
-        return this.view("projections/add-projection", names, objects);
+        return getModelErrorAndView(new ProjectionBinding(), null);
     }
 
     @PostMapping("/projections/add")
     @PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
     public ModelAndView addProjection(@Valid @ModelAttribute ProjectionBinding projectionBinding, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            String[] names = {"projectionBinding", "movies"};
+            return getModelErrorAndView(projectionBinding, null);
+        }
 
-            Object[] objects = { projectionBinding, this.movieService.findAll() };
-
-            return this.view("projections/add-projection", names, objects);
+        if (!this.projectionService.validProjection(projectionBinding, null)) {
+            return this.getModelErrorAndView(projectionBinding, INVALID_PROJECTION_MESSAGE);
         }
 
         this.projectionService.save(projectionBinding);
@@ -75,22 +73,18 @@ public class ProjectionController extends BaseController {
     @GetMapping("/edit/projection/{id}")
     @PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
     public ModelAndView editProjection(@PathVariable String id) {
-        String[] names = {"projectionEditBinding", "movies", "projectionId" };
-
-        Object[] objects = { this.projectionService.getEditProjection(id), this.movieService.findAll(), id };
-
-        return this.view("projections/edit-projection", names, objects);
+        return this.getModelEditAndView(id, this.projectionService.getEditProjection(id), null);
     }
 
     @PostMapping("/edit/projection/{id}")
     @PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
     public ModelAndView editProjection(@PathVariable String id, @Valid @ModelAttribute ProjectionEditBinding projectionEditBinding, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            String[] names = {"projectionEditBinding", "movies", "projectionId" };
+            return this.getModelEditAndView(id, projectionEditBinding, null);
+        }
 
-            Object[] objects = { projectionEditBinding, this.movieService.findAll(), id };
-
-            return this.view("projections/edit-projection", names, objects);
+        if (!this.projectionService.validProjection(null, projectionEditBinding)) {
+            return this.getModelEditAndView(id, projectionEditBinding, INVALID_PROJECTION_MESSAGE);
         }
         this.projectionService.edit(id, projectionEditBinding);
 
@@ -103,5 +97,21 @@ public class ProjectionController extends BaseController {
         this.projectionService.delete(id);
 
         return this.redirect("/projections/show");
+    }
+
+    private ModelAndView getModelErrorAndView(@Valid @ModelAttribute ProjectionBinding projectionBinding, String error) {
+        String[] names = {"projectionBinding", "movies", "error"};
+
+        Object[] objects = {projectionBinding, this.movieService.findAll(), error};
+
+        return this.view("projections/add-projection", names, objects);
+    }
+
+    private ModelAndView getModelEditAndView(@PathVariable String id, @Valid @ModelAttribute ProjectionEditBinding projectionEditBinding, String invalidProjectionMessage) {
+        String[] names = {"projectionEditBinding", "movies", "projectionId", "error"};
+
+        Object[] objects = {projectionEditBinding, this.movieService.findAll(), id, invalidProjectionMessage};
+
+        return this.view("projections/edit-projection", names, objects);
     }
 }
