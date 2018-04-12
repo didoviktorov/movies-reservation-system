@@ -10,7 +10,7 @@ public class MovieViewDto {
 
     private Long duration;
 
-    private String embedCode;
+    private String trailerUrl;
 
     public MovieViewDto() {
     }
@@ -47,11 +47,11 @@ public class MovieViewDto {
         this.duration = duration;
     }
 
-    public String getEmbedCode() {
-        return this.embedCode;
+    public String getTrailerUrl() {
+        return this.trailerUrl;
     }
 
-    public void setEmbedCode(String embedCode) {
-        this.embedCode = embedCode;
+    public void setTrailerUrl(String trailerUrl) {
+        this.trailerUrl = trailerUrl;
     }
 }

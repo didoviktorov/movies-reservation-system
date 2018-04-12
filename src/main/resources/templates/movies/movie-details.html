@@ -34,7 +34,9 @@
             </div>
             <div class="col-md-8">
                 <p><strong>Trailer: </strong></p>
-                <div class="embed-responsive embed-responsive-16by9" th:utext="${movie.embedCode}"></div>
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe width="560" height="315" th:src="${'https://www.youtube.com/embed/' + movie.trailerUrl}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
             </div>
         </div>
         <div class="row pt-2">

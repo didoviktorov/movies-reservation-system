@@ -21,7 +21,7 @@ public class MovieBinding {
     @Max(value = 180, message = "Max duration is about 180 minutes")
     private Long duration;
 
-    private String embedCode;
+    private String trailerUrl;
 
     public MovieBinding() {
     }
@@ -58,11 +58,11 @@ public class MovieBinding {
         this.duration = duration;
     }
 
-    public String getEmbedCode() {
-        return this.embedCode;
+    public String getTrailerUrl() {
+        return this.trailerUrl;
     }
 
-    public void setEmbedCode(String embedCode) {
-        this.embedCode = embedCode;
+    public void setTrailerUrl(String trailerUrl) {
+        this.trailerUrl = trailerUrl;
     }
 }

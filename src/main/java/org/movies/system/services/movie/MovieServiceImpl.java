@@ -5,6 +5,7 @@ import org.movies.system.models.binding.MovieBinding;
 import org.movies.system.models.entities.Movie;
 import org.movies.system.models.view.MovieViewDto;
 import org.movies.system.repositories.MovieRepository;
+import org.movies.system.utils.EscapeCharacters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,6 +41,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public void save(MovieBinding movieBinding) {
         Movie movie = this.modelMapper.map(movieBinding, Movie.class);
+        movie.setTrailerUrl(getEmbedCode(movie.getTrailerUrl()));
         this.movieRepository.save(movie);
     }
 
@@ -47,7 +49,7 @@ public class MovieServiceImpl implements MovieService {
     public void edit(String id, MovieBinding movieBinding) {
         Movie movie = this.modelMapper.map(movieBinding, Movie.class);
         movie.setId(id);
-
+        movie.setTrailerUrl(getEmbedCode(movie.getTrailerUrl()));
         this.movieRepository.save(movie);
     }
 
@@ -79,5 +81,11 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public void delete(String id) {
         this.movieRepository.delete(this.movieRepository.getOne(id));
+    }
+
+    private String getEmbedCode(String link) {
+        link = EscapeCharacters.escape(link);
+        link = link.substring(link.lastIndexOf("=") + 1);
+        return link;
     }
 }

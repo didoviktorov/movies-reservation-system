@@ -36,7 +36,7 @@ public class ProjectionController extends BaseController {
 
     @GetMapping("/projections/show")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView allMovies(@PageableDefault(size = 5)Pageable pageable) {
+    public ModelAndView allProjections(@PageableDefault(size = 5)Pageable pageable) {
         String[] names = {"projections", "page_count"};
 
         Page<Projection> projections = this.projectionService.findAllProjections(pageable);

@@ -1,15 +1,13 @@
 package org.movies.system.models.entities;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "movies")
@@ -24,12 +22,14 @@ public class Movie {
     private String id;
 
     @NotEmpty(message = "Add Poster Url")
+    @Column(columnDefinition="TEXT")
     private String posterUrl;
 
     @NotEmpty(message = "You need to add movie title")
     private String title;
 
     @NotEmpty(message = "You need to add some description")
+    @Column(columnDefinition="TEXT")
     private String description;
 
     @NotNull(message = "You must add duration")
@@ -37,7 +37,7 @@ public class Movie {
     @Min(value = 60, message = "Min duration is about 60 minutes")
     private Long duration;
 
-    private String embedCode;
+    private String trailerUrl;
 
     public Movie() {
     }
@@ -82,11 +82,11 @@ public class Movie {
         this.duration = duration;
     }
 
-    public String getEmbedCode() {
-        return embedCode;
+    public String getTrailerUrl() {
+        return trailerUrl;
     }
 
-    public void setEmbedCode(String embedCode) {
-        this.embedCode = embedCode;
+    public void setTrailerUrl(String trailerUrl) {
+        this.trailerUrl = trailerUrl;
     }
 }

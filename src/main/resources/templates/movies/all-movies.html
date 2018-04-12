@@ -81,14 +81,17 @@
             / 3) * 3)
             , ((movies.getPageable().getPageNumber()
             / 3) * 3) + 2)}">
-                <li class="page-item"
-                    th:classappend="${number == movies.getPageable().getPageNumber()  ? ' active' : ''}"><a
-                        class="page-link" th:text="${number + 1}" th:href="@{/movies/show(page=${number})}"></a></li>
+                <th:block th:if="${number < movies.getTotalPages()} ">
+                    <li class="page-item"
+                        th:classappend="${number == movies.getPageable().getPageNumber()  ? ' active' : ''}"><a
+                            class="page-link" th:text="${number + 1}" th:href="@{/movies/show(page=${number})}"></a>
+                    </li>
+                </th:block>
             </th:block>
 
             <!--Dot Button-->
             <li class="page-item" id="second"><a class="page-link"
-                                                 th:if="${movies.getPageable().getPageNumber() + 1 < movies.getTotalPages() - 2}"
+                                                 th:if="${movies.getPageable().getPageNumber() + 2 < movies.getTotalPages() - 1}"
                                                  th:disabled="true">...</a></li>
 
             <!--Next Button-->

@@ -20,11 +20,16 @@
             <h3>No available projections at this time!</h3>
         </div>
     </th:block>
+
+    <th:block th:if="${cinema != null}">
+        <h3 th:text="${cinema}"></h3>
+    </th:block>
+
     <th:block th:if="${projections != null}">
 
         <table class="table table-hover pt-4">
             <thead>
-            <tr  class="row">
+            <tr class="row">
                 <th class="col-md-1" scope="row">#</th>
                 <th class="col-md-2" scope="row">Movie</th>
                 <th class="col-md-2" scope="row">Poster</th>
@@ -37,7 +42,8 @@
             <tbody>
 
             <th:block th:each="projection, iterProjection : ${projections}">
-                <tr class="row movie-row" th:onclick="'window.location.href = \'' + @{/details/projection/{id}(id=${projection.id})} + '\''">
+                <tr class="row movie-row"
+                    th:onclick="'window.location.href = \'' + @{/details/projection/{id}(id=${projection.id})} + '\''">
                     <td class="col-md-1" scope="row" th:text="${
                     (projections.getPageable().getPageNumber() + 1 <= 1
                     ? 0
@@ -45,12 +51,13 @@
                     <td class="col-md-2" scope="row" th:text="${projection.getMovie().getTitle()}"></td>
                     <td class="col-md-2" scope="row">
                         <div class="w-50 p-1" id="movie-poster">
-                            <img class="img-thumbnail" th:src="${projection.getMovie().getPosterUrl()}" alt="Poster" />
+                            <img class="img-thumbnail" th:src="${projection.getMovie().getPosterUrl()}" alt="Poster"/>
                         </div>
 
                     </td>
                     <td class="col-md-1" scope="row" th:text="${projection.getCinema().getName()}"></td>
-                    <td class="col-md-2" scope="row" th:text="${#dates.format(projection.getProjectionDate(), 'yyyy-MM-dd')}"></td>
+                    <td class="col-md-2" scope="row"
+                        th:text="${#dates.format(projection.getProjectionDate(), 'yyyy-MM-dd')}"></td>
                     <td class="col-md-2" scope="row">
                         <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-secondary" role="button"
                            th:href="@{/edit/projection/{id} (id=${projection.id})}">Edit</a>
@@ -67,7 +74,7 @@
             <ul class="pagination d-flex justify-content-center">
                 <!--Previous Button-->
                 <li class="page-item"><a class="page-link" th:if="${projections.hasPrevious()}"
-                                         th:href="@{/movies/show(page=${projections.previousPageable().getPageNumber() + 1} - 1)}">Previous</a>
+                                         th:href="@{/projections/show(page=${projections.previousPageable().getPageNumber() + 1} - 1)}">Previous</a>
                 </li>
 
                 <!--Dot Button-->
@@ -81,19 +88,22 @@
             / 3) * 3)
             , ((projections.getPageable().getPageNumber()
             / 3) * 3) + 2)}">
-                    <li class="page-item"
-                        th:classappend="${number == projections.getPageable().getPageNumber()  ? ' active' : ''}"><a
-                            class="page-link" th:text="${number + 1}" th:href="@{/movies/show(page=${number})}"></a></li>
+                    <th:block th:if="${number < projections.getTotalPages()} ">
+                        <li class="page-item"
+                            th:classappend="${number == projections.getPageable().getPageNumber()  ? ' active' : ''}"><a
+                                class="page-link" th:text="${number + 1}" th:href="@{/movies/show(page=${number})}"></a>
+                        </li>
+                    </th:block>
                 </th:block>
 
                 <!--Dot Button-->
                 <li class="page-item" id="second"><a class="page-link"
-                                                     th:if="${projections.getPageable().getPageNumber() + 1 < projections.getTotalPages() - 2}"
+                                                     th:if="${projections.getPageable().getPageNumber() + 2 < projections.getTotalPages() - 1}"
                                                      th:disabled="true">...</a></li>
 
                 <!--Next Button-->
                 <li class="page-item"><a class="page-link" th:if="${projections.hasNext()}"
-                                         th:href="@{/movies/show(page=${projections.nextPageable().getPageNumber()})}">Next</a>
+                                         th:href="@{/projections/show(page=${projections.nextPageable().getPageNumber()})}">Next</a>
                 </li>
             </ul>
         </nav>

@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -59,6 +60,11 @@ public class ProjectionServiceImpl implements ProjectionService {
     @Override
     public Page<Projection> findAllProjections(Pageable pageable) {
         return this.projectionRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Projection> findAllByCinema_Id(String cinema_id, Pageable pageable) {
+        return this.projectionRepository.findAllByCinema_Id(cinema_id, pageable);
     }
 
     @Override

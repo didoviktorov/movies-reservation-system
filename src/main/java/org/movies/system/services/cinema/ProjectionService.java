@@ -19,6 +19,8 @@ public interface ProjectionService {
 
     Page<Projection> findAllProjections(Pageable pageable);
 
+    Page<Projection> findAllByCinema_Id(String cinema_id, Pageable pageable);
+
     ProjectionEditBinding getEditProjection(String id);
 
     void delete(String id);

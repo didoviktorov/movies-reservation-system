@@ -51,9 +51,9 @@
             </div>
 
             <div class="form-group">
-                <label for="embedCode">Embed Code for Trailer</label>
-                <input type="text" th:value="${movieBinding.embedCode}" class="form-control" name="embedCode" id="embedCode" aria-describedby="embedCode" th:classappend="${#fields.hasErrors('embedCode')}? 'is-invalid'" />
-                <small style="color: red" id="embedCodeHelp" th:each="error : ${#fields.errors('embedCode')}" th:text="${error}"></small>
+                <label for="trailerUrl">Embed Code for Trailer</label>
+                <input type="text" th:value="${movieBinding.trailerUrl}" class="form-control" name="trailerUrl" id="trailerUrl" aria-describedby="trailerUrl" th:classappend="${#fields.hasErrors('trailerUrl')}? 'is-invalid'" />
+                <small style="color: red" id="embedCodeHelp" th:each="error : ${#fields.errors('trailerUrl')}" th:text="${error}"></small>
             </div>
 
             <button type="submit" class="btn btn-primary">Edit Movie</button>
