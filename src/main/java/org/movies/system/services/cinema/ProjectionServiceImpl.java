@@ -1,9 +1,12 @@
 package org.movies.system.services.cinema;
 
 import org.modelmapper.ModelMapper;
+import org.movies.system.exceptions.BadRequestException;
 import org.movies.system.models.binding.ProjectionBinding;
 import org.movies.system.models.binding.ProjectionEditBinding;
 import org.movies.system.models.entities.Projection;
+import org.movies.system.models.entities.Reservation;
+import org.movies.system.models.view.ProjectionViewDto;
 import org.movies.system.repositories.ProjectionRepository;
 import org.movies.system.services.hall.HallService;
 import org.movies.system.services.movie.MovieService;
@@ -65,6 +68,18 @@ public class ProjectionServiceImpl implements ProjectionService {
     }
 
     @Override
+    public Projection findById(String id) {
+        Projection projection = this.projectionRepository.findFirstById(id);
+        this.checkProjection(projection);
+        return projection;
+    }
+
+    @Override
+    public ProjectionViewDto findProjectionView(String id) {
+        return this.modelMapper.map(this.findById(id), ProjectionViewDto.class);
+    }
+
+    @Override
     public Page<Projection> findAllByCinema_Id(String cinema_id, Pageable pageable) {
         return this.projectionRepository.findAllByCinema_Id(cinema_id, pageable);
     }
@@ -72,8 +87,7 @@ public class ProjectionServiceImpl implements ProjectionService {
     @Override
     public ProjectionEditBinding getEditProjection(String id) {
         Projection projection = this.projectionRepository.findFirstById(id);
-        ProjectionEditBinding projectionEditBinding = this.modelMapper.map(projection, ProjectionEditBinding.class);
-        return projectionEditBinding;
+        return this.modelMapper.map(projection, ProjectionEditBinding.class);
     }
 
     @Override
@@ -81,7 +95,7 @@ public class ProjectionServiceImpl implements ProjectionService {
         this.projectionRepository.delete(this.projectionRepository.findFirstById(id));
     }
 
-    public boolean validProjection(ProjectionBinding projectionBinding, ProjectionEditBinding projectionEditBinding) {
+    public boolean validProjection(ProjectionBinding projectionBinding, ProjectionEditBinding projectionEditBinding, String editId) {
         List<Projection> allProjections = this.projectionRepository.findAll();
         boolean isSameCinema;
         boolean isSameHall;
@@ -97,14 +111,13 @@ public class ProjectionServiceImpl implements ProjectionService {
                 isSameDate = currentProjection.getProjectionDate().compareTo(projectionEditBinding.getProjectionDate()) == 0;
             }
 
-
             if (isSameCinema && isSameHall && isSameDate) {
                 String[] projectionHours =
                         projectionBinding != null ?
                                 projectionBinding.getHours().split(",")
                                 : projectionEditBinding.getHours().split(",");
                 for (String projectionHour : projectionHours) {
-                    if (currentProjection.getHours().contains(projectionHour)) {
+                    if (currentProjection.getHours().contains(projectionHour) && !currentProjection.getId().equals(editId)) {
                         return false;
                     }
                 }
@@ -112,5 +125,11 @@ public class ProjectionServiceImpl implements ProjectionService {
         }
 
         return true;
+    }
+
+    private void checkProjection(Projection projection) {
+        if (projection == null) {
+            throw new BadRequestException();
+        }
     }
 }

@@ -43,7 +43,7 @@
 
             <th:block th:each="projection, iterProjection : ${projections}">
                 <tr class="row movie-row"
-                    th:onclick="'window.location.href = \'' + @{/details/projection/{id}(id=${projection.id})} + '\''">
+                    th:onclick="'window.location.href = \'' + @{/reservations/add/{id}(id=${projection.id})} + '\''">
                     <td class="col-md-1" scope="row" th:text="${
                     (projections.getPageable().getPageNumber() + 1 <= 1
                     ? 0

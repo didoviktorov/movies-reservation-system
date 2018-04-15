@@ -18,9 +18,12 @@ public class CinemaController extends BaseController {
 
     private ProjectionService projectionService;
 
+    private CinemaService cinemaService;
+
     @Autowired
-    public CinemaController(CinemaService cinemaService, ProjectionService projectionService) {
+    public CinemaController(CinemaService cinemaService, ProjectionService projectionService, CinemaService cinemaService1) {
         this.projectionService = projectionService;
+        this.cinemaService = cinemaService1;
     }
 
 
@@ -34,7 +37,7 @@ public class CinemaController extends BaseController {
         Object[] objects = {
                 projections.getTotalPages() == 0 ? null : projections,
                 this.projectionService.projectionsCount() / 5,
-                projections.iterator().next().getCinema().getName()
+                this.cinemaService.findById(id).getName()
         };
 
         return this.view("projections/all-projections", names, objects);

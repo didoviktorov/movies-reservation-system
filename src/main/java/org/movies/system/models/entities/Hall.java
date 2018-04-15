@@ -4,8 +4,10 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "halls")
@@ -55,5 +57,11 @@ public class Hall {
 
     public void setSeats(Set<Seat> seats) {
         this.seats = seats;
+    }
+
+    public List<Seat> orderedSeats() {
+        return this.getSeats().stream()
+                .sorted((s1, s2) -> s1.getSeatNumber() - s2.getSeatNumber())
+                .collect(Collectors.toList());
     }
 }

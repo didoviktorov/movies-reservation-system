@@ -1,6 +1,7 @@
 package org.movies.system.services.movie;
 
 import org.modelmapper.ModelMapper;
+import org.movies.system.exceptions.BadRequestException;
 import org.movies.system.models.binding.MovieBinding;
 import org.movies.system.models.entities.Movie;
 import org.movies.system.models.view.MovieViewDto;
@@ -35,7 +36,9 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie findById(String id) {
-        return this.movieRepository.findFirstById(id);
+        Movie movie = this.movieRepository.findFirstById(id);
+        this.checkMovie(movie);
+        return movie;
     }
 
     @Override
@@ -66,16 +69,15 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public MovieViewDto getMovie(String id) {
         Movie movie = this.movieRepository.findFirstById(id);
-
-        MovieViewDto movieViewDto = this.modelMapper.map(movie, MovieViewDto.class);
-
-        return movieViewDto;
+        this.checkMovie(movie);
+        return this.modelMapper.map(movie, MovieViewDto.class);
     }
 
     @Override
     public MovieBinding getEditMovie(String id) {
-        MovieBinding movieBinding = this.modelMapper.map(this.movieRepository.findFirstById(id), MovieBinding.class);
-        return movieBinding;
+        Movie movie = this.movieRepository.findFirstById(id);
+        this.checkMovie(movie);
+        return this.modelMapper.map(movie, MovieBinding.class);
     }
 
     @Override
@@ -87,5 +89,11 @@ public class MovieServiceImpl implements MovieService {
         link = EscapeCharacters.escape(link);
         link = link.substring(link.lastIndexOf("=") + 1);
         return link;
+    }
+
+    private void checkMovie(Movie movie) {
+        if (movie == null) {
+            throw new BadRequestException();
+        }
     }
 }

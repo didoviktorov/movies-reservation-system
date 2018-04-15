@@ -61,7 +61,7 @@ public class ProjectionController extends BaseController {
             return getModelErrorAndView(projectionBinding, null);
         }
 
-        if (!this.projectionService.validProjection(projectionBinding, null)) {
+        if (!this.projectionService.validProjection(projectionBinding, null, "")) {
             return this.getModelErrorAndView(projectionBinding, INVALID_PROJECTION_MESSAGE);
         }
 
@@ -83,7 +83,7 @@ public class ProjectionController extends BaseController {
             return this.getModelEditAndView(id, projectionEditBinding, null);
         }
 
-        if (!this.projectionService.validProjection(null, projectionEditBinding)) {
+        if (!this.projectionService.validProjection(null, projectionEditBinding, id)) {
             return this.getModelEditAndView(id, projectionEditBinding, INVALID_PROJECTION_MESSAGE);
         }
         this.projectionService.edit(id, projectionEditBinding);

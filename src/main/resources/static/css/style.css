@@ -88,4 +88,38 @@ body {
     cursor: pointer;
 }
 
+.badge:hover {
+    font-size: 100%;
+    cursor: pointer;
+}
+
+.hour-selected {
+    background-color: green !important;
+}
+
+.d-center {
+    text-align: center;
+}
+
+.reservation-table td {
+    text-align: center;
+}
+
+.reservation-table .row-cell {
+    background-color: cornflowerblue;
+    color: white;
+}
+
+.seat-cell:hover {
+    background-color: dodgerblue;
+    color: white;
+    cursor: pointer;
+}
+
+.selected-seat {
+    background-color: seagreen !important;
+    color: white;
+    border-radius: 4px;
+}
+
 

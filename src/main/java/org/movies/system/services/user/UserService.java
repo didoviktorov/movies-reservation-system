@@ -18,11 +18,11 @@ public interface UserService {
 
     void register(UserRegisterDto userRegisterDto);
 
-    void edit(UserEditDto userEditDto);
-
     void seedUser();
 
     UserEditDto findEditUser(String id);
 
     void editUser(String id, UserEditDto userEditDto);
+
+    void save(User user);
 }

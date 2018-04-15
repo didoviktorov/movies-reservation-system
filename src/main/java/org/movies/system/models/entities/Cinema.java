@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
@@ -33,7 +34,7 @@ public class Cinema {
     private Set<Hall> halls;
 
     public Cinema() {
-        this.halls = new HashSet<>();
+        this.halls = new LinkedHashSet<>();
     }
 
     public String getId() {

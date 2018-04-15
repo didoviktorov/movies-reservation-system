@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block>
+        <div th:replace="~{fragments/head}"></div>
+    </th:block>
+</head>
+<body>
+<th:block>
+    <div th:replace="~{fragments/navbar}"></div>
+</th:block>
+
+<div class="container pt-4 pb-5">
+    <h1>Make Reservation</h1>
+    <!--/*@thymesVar id="reservationBinding" type="org.movies.system.models.binding.ReservationBinding"*/-->
+    <!--/*@thymesVar id="projectionId" type="java.lang.String"*/-->
+    <!--/*@thymesVar id="projection" type="org.movies.system.models.view.ProjectionViewDto"*/-->
+    <form class="mt-4" th:action="@{/reservations/add/{id} (id=${projectionId})}" method="POST"
+          th:object="${reservationBinding}">
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label><strong>Projection date</strong></label><br/>
+                <span th:text="${#dates.format(projection.getProjectionDate(), 'yyyy-MM-dd EEE')}"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <label><strong>Price per person</strong></label><br/>
+                $<span th:text="${' 15'}" id="price-per-person"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="price"><strong>Total price</strong></label><br/>
+                $<span id="total-price" th:text="${reservationBinding.price}"></span>
+                <input id="price" name="price" style="display: none;" th:value="${reservationBinding.price}"/>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label for="projectionHour"><strong>Choose hour</strong></label><br/>
+                <th:block th:each="hour : ${projection.getHours().split(',')}">
+                    <span th:text="${hour}"
+                          class="badge badge-primary"
+                          th:classappend="${hour.equals(reservationBinding.getProjectionHour())} ? 'hour-selected'"></span>
+                </th:block>
+                <br/>
+                <input id="projectionHour" name="projectionHour" style="display: none"
+                       th:value="${reservationBinding.getProjectionHour()}"/>
+                <small style="color: red" th:each="error : ${#fields.errors('projectionHour')}"
+                       th:text="${error}"></small>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="tickets"><strong>Choose number of tickets</strong></label><br/>
+                <select class="form-control" id="tickets" name="tickets">
+                    <th:block th:each="ticket:${#numbers.sequence(0,6)}">
+                        <option th:selected="${reservationBinding.getTickets() == ticket}"
+                                th:text="${ticket}"></option>
+                    </th:block>
+                </select>
+                <small style="color: red" th:each="error : ${#fields.errors('tickets')}" th:text="${error}"></small>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-1">Row</div>
+            <div class="col-sm-11 text-center">Screen</div>
+        </div>
+        <div class="table-responsive">
+
+            <table class="table reservation-table">
+                <thead>
+                <tr></tr>
+                </thead>
+                <tbody>
+                <!--/*@thymesVar id="hall" type="org.movies.system.models.entities.Hall"*/-->
+                <th:block th:each="seat, seatIter : ${hall.orderedSeats()}">
+                    <th:block th:if="${seatIter.index == 0}">
+                        <tr>
+                            <td th:text="${seatIter.index + 1}" class="row-cell"></td>
+                            <td th:id="${seat.id}" th:text="${seat.getSeatNumber()}" class="seat-cell"
+                                th:classappend="${#lists.contains(reservationBinding.getSeats(), seat.id)} ? 'selected-seat'"></td>
+                    </th:block>
+                    <th:block th:if="${seatIter.index % 10 == 0 and seatIter.index != 0}">
+                        </tr>
+                        <tr>
+                            <td th:text="${(seatIter.index / 10) + 1}" class="row-cell"></td>
+                            <td th:id="${seat.id}" th:text="${seat.getSeatNumber()}" class="seat-cell"
+                                th:classappend="${#lists.contains(reservationBinding.getSeats(), seat.id)} ? 'selected-seat'"></td>
+                    </th:block>
+                    <th:block th:if="${seatIter.index == hall.orderedSeats().size() - 1}">
+                        <td th:id="${seat.id}" th:text="${seat.getSeatNumber()}" class="seat-cell"
+                            th:classappend="${#lists.contains(reservationBinding.getSeats(), seat.id)} ? 'selected-seat'"></td>
+                        </tr>
+                    </th:block>
+                    <th:block
+                            th:if="${seatIter.index != 0 and seatIter.index % 10 != 0 and seatIter.index < hall.orderedSeats().size() - 1}">
+                        <td th:id="${seat.id}" th:text="${seat.getSeatNumber()}" class="seat-cell"
+                            th:classappend="${#lists.contains(reservationBinding.getSeats(), seat.id)} ? 'selected-seat'"></td>
+                    </th:block>
+                </th:block>
+                </th:block>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="form-group">
+            <select multiple class="form-control" id="seats" name="seats" style="display: none">
+                <th:block th:each="seat : ${reservationBinding.getSeats()}">
+                    <option th:value="${seat}" selected></option>
+                </th:block>
+            </select>
+            <small style="color: red" th:each="error : ${#fields.errors('seats')}" th:text="${error}"></small>
+        </div>
+
+        <div class="form-group">
+            <input id="projection" name="projection" style="display: none;" th:value="${projectionId}"/>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Make Reservation</button>
+        <a class="btn btn-primary" href="/">Cancel</a>
+    </form>
+</div>
+<th:block th:replace="~{fragments/footer}">
+</th:block>
+</body>
+</html>

@@ -30,8 +30,12 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
+    @OneToMany(mappedBy = "user")
+    private Set<Reservation> reservations;
+
     public User() {
         this.roles = new HashSet<>();
+        this.reservations = new HashSet<>();
     }
 
     public String getId() {
@@ -72,5 +76,13 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Set<Reservation> getReservations() {
+        return this.reservations;
+    }
+
+    public void setReservations(Set<Reservation> reservations) {
+        this.reservations = reservations;
     }
 }

@@ -55,12 +55,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User findFirstByUsername(String username) {
-        return this.userRepository.findFirstByUsername(username);
+        User user = this.userRepository.findFirstByUsername(username);
+        this.checkUser(user);
+        return user;
     }
 
     @Override
     public User findFirstById(String id) {
-        return this.userRepository.findFirstById(id);
+        User user = this.userRepository.findFirstById(id);
+        this.checkUser(user);
+        return user;
     }
 
     @Override
@@ -76,12 +80,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         this.roleService.save(role);
 
-        this.userRepository.save(user);
-    }
-
-    @Override
-    public void edit(UserEditDto userEditDto) {
-        User user = new User();
         this.userRepository.save(user);
     }
 
@@ -134,6 +132,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             this.roleService.save(role);
         }
 
+        this.userRepository.save(user);
+    }
+
+    @Override
+    public void save(User user) {
         this.userRepository.save(user);
     }
 

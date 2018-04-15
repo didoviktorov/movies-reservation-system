@@ -1,34 +1,23 @@
-package org.movies.system.models.binding;
+package org.movies.system.models.view;
 
-import org.movies.system.custom.ValidDate;
 import org.movies.system.models.entities.Cinema;
 import org.movies.system.models.entities.Hall;
 import org.movies.system.models.entities.Movie;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-public class ProjectionEditBinding {
+public class ProjectionViewDto {
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @ValidDate
     private Date projectionDate;
 
-    @NotEmpty(message = "You must choose hours")
     private String hours;
 
-    @NotNull
     private Cinema cinema;
 
-    @NotNull
     private Hall hall;
 
-    @NotNull
-    private Movie movie;
-
-    public ProjectionEditBinding() {
+    public ProjectionViewDto() {
     }
 
     public Date getProjectionDate() {
@@ -61,13 +50,5 @@ public class ProjectionEditBinding {
 
     public void setHall(Hall hall) {
         this.hall = hall;
-    }
-
-    public Movie getMovie() {
-        return this.movie;
-    }
-
-    public void setMovie(Movie movie) {
-        this.movie = movie;
     }
 }
