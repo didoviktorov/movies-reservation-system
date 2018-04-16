@@ -25,4 +25,6 @@ public interface UserService {
     void editUser(String id, UserEditDto userEditDto);
 
     void save(User user);
+
+    boolean validateRegisterUser(UserRegisterDto userRegisterDto);
 }

@@ -29,22 +29,25 @@ public class UserController extends BaseController {
     @GetMapping("/register")
     @PreAuthorize("isAnonymous()")
     public ModelAndView registerUser(@ModelAttribute UserRegisterDto userRegisterDto, Model model) {
-        model.addAttribute("userRegisterDto", userRegisterDto);
-        return this.view("register");
+        return this.view("register", "userRegisterDto", userRegisterDto);
     }
 
     @PostMapping("/register")
     @PreAuthorize("isAnonymous()")
-    public ModelAndView registerUser(@Valid @ModelAttribute UserRegisterDto userRegisterDto, BindingResult bindingResult, Model model) {
+    public ModelAndView registerUser(@Valid @ModelAttribute UserRegisterDto userRegisterDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return this.view("register");
+            return this.view("register", "userRegisterDto", userRegisterDto);
         }
         if (!userRegisterDto.passwordsMatch()) {
-            model.addAttribute(userRegisterDto);
             bindingResult.rejectValue("password", "error.userRegisterDto", "Passwords do not match.");
             bindingResult.rejectValue("confirmPassword", "error.userRegisterDto", "Passwords do not match.");
 
-            return this.view("register");
+            return this.view("register", "userRegisterDto", userRegisterDto);
+        }
+
+        if (!this.userService.validateRegisterUser(userRegisterDto)) {
+            bindingResult.rejectValue("username", "error.userRegisterDto", "There is already registered User with username " + userRegisterDto.getUsername());
+            return this.view("register", "userRegisterDto", userRegisterDto);
         }
 
         this.userService.register(userRegisterDto);

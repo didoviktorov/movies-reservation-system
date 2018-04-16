@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.movies.system.services.role.RoleService;
 import org.movies.system.utils.EscapeCharacters;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -76,7 +77,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         Role role = this.roleService.findFirstByName("USER");
         role.getUsers().add(user);
-        user.getRoles().add(role);
+        user.addRole(role);
 
         this.roleService.save(role);
 
@@ -90,8 +91,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         admin.setEmail("admin@admin.bg");
         admin.setPassword(this.passwordEncoder.encode("admin"));
 
-        admin.getRoles().add(this.roleService.findFirstByName("ADMIN"));
-        admin.getRoles().add(this.roleService.findFirstByName("USER"));
+        admin.addRole(this.roleService.findFirstByName("ADMIN"));
+        admin.addRole(this.roleService.findFirstByName("USER"));
 
         this.userRepository.save(admin);
     }
@@ -105,8 +106,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         this.modelMapper.map(user, userEditDto);
 
-        Set<String> editUserRoles = user.getRoles().stream()
-                .map(Role::getName)
+        Set<String> editUserRoles = user.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toSet());
 
         userEditDto.setRoles(editUserRoles);
@@ -122,12 +123,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setEmail(userEditDto.getEmail());
         user.setUsername(userEditDto.getUsername());
 
-        user.setRoles(new HashSet<>());
+//        user.setRoles(new HashSet<>());
         for (String roleName : userEditDto.getRoles()) {
             Role role = this.roleService.findFirstByName(roleName);
 
             role.getUsers().add(user);
-            user.getRoles().add(role);
+            user.addRole(role);
 
             this.roleService.save(role);
         }
@@ -141,15 +142,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public boolean validateRegisterUser(UserRegisterDto userRegisterDto) {
+        return this.userRepository.findFirstByUsername(userRegisterDto.getUsername()) == null;
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = this.userRepository.findFirstByUsername(EscapeCharacters.escape(username));
         if (user == null) {
             throw new UsernameNotFoundException("No Found User");
         }
 
-        Set<SimpleGrantedAuthority> roles = user.getRoles()
+        Set<SimpleGrantedAuthority> roles = user.getAuthorities()
                 .stream()
-                .map(r -> new SimpleGrantedAuthority("ROLE_" + r.getName()))
+                .map(r -> new SimpleGrantedAuthority("ROLE_" + r.getAuthority()))
                 .collect(Collectors.toSet());
 
         UserDetails userDetails = new org.springframework.security.core.userdetails.User(

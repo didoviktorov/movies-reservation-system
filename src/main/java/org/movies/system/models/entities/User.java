@@ -1,14 +1,17 @@
 package org.movies.system.models.entities;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -18,7 +21,7 @@ public class User {
     )
     private String id;
 
-    @Column(name = "username", nullable = false, unique = true)
+    @Column(name = "username", nullable = false)
     private String username;
 
     @Column(name = "email", nullable = false)
@@ -32,6 +35,14 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private Set<Reservation> reservations;
+
+    private boolean isAccountNonExpired;
+
+    private boolean isAccountNonLocked;
+
+    private boolean isCredentialsNonExpired;
+
+    private boolean isEnabled;
 
     public User() {
         this.roles = new HashSet<>();
@@ -50,6 +61,26 @@ public class User {
         return this.username;
     }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return this.isAccountNonExpired;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return this.isAccountNonLocked;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return this.isCredentialsNonExpired;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.isEnabled;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -62,6 +93,11 @@ public class User {
         this.email = email;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles;
+    }
+
     public String getPassword() {
         return this.password;
     }
@@ -70,12 +106,16 @@ public class User {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
-        return this.roles;
-    }
+//    public Set<Role> getRoles() {
+//        return this.roles;
+//    }
+//
+//    public void setRoles(Set<Role> roles) {
+//        this.roles = roles;
+//    }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void addRole(Role role) {
+        this.roles.add(role);
     }
 
     public Set<Reservation> getReservations() {

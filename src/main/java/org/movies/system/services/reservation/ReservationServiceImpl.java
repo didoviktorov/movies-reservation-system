@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -41,7 +42,12 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public void save(ReservationBinding reservationBinding) {
         Reservation reservation = this.modelMapper.map(reservationBinding, Reservation.class);
-
+        reservation.setSeats(new HashSet<>());
+        for (String seatId : reservationBinding.getSeats()) {
+            Seat currentSeat = this.seatService.findById(seatId);
+            reservation.getSeats().add(currentSeat);
+            this.seatService.save(currentSeat);
+        }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = null;
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
@@ -53,9 +59,6 @@ public class ReservationServiceImpl implements ReservationService {
             user.getReservations().add(reservation);
         }
 
-        for (Seat seat : reservation.getSeats()) {
-            this.seatService.save(seat);
-        }
         this.reservationRepository.save(reservation);
         this.userService.save(user);
     }

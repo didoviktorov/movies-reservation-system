@@ -6,8 +6,8 @@ $(document).ready(function () {
 function getPosterUlr() {
     let imageUrl = $("#posterUrl").val();
 
-    let pos = $("#edit-poster");
-    pos.attr("src", imageUrl);
+    let poster = $("#edit-poster");
+    poster.attr("src", imageUrl);
 }
 
 function getAllCinemas() {
@@ -66,11 +66,23 @@ $(document).on("click", ".badge", function () {
 
     let projectionId = $("#projection").val();
     let hour = currentBadge.text();
+
+    $(".seat-reserved").each(function () {
+        $(this).removeClass("seat-reserved");
+        $(this).addClass("seat-cell");
+    });
+
     $.ajax({
         type: "GET",
         url: "http://localhost:8000/reserved-seats?projection=" + projectionId + "&hour=" + hour,
         success: function (data) {
-            console.log(data);
+            $(".seat-cell").each(function () {
+                let seatId = $(this).attr("id");
+                if (data.includes(seatId)) {
+                    $(this).removeClass("seat-cell");
+                    $(this).addClass("seat-reserved");
+                }
+            });
         },
         error: function (r) {
             console.log(r);

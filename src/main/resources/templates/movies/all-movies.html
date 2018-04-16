@@ -91,7 +91,7 @@
 
             <!--Dot Button-->
             <li class="page-item" id="second"><a class="page-link"
-                                                 th:if="${movies.getPageable().getPageNumber() + 2 < movies.getTotalPages() - 1}"
+                                                 th:if="${movies.getPageable().getPageNumber() + 1 < movies.getTotalPages() - 1}"
                                                  th:disabled="true">...</a></li>
 
             <!--Next Button-->

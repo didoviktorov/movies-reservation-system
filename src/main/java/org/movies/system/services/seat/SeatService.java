@@ -5,4 +5,6 @@ import org.movies.system.models.entities.Seat;
 public interface SeatService {
 
     void save(Seat seat);
+
+    Seat findById(String id);
 }

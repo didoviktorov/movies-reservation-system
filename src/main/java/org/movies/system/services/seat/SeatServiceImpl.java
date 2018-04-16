@@ -23,4 +23,9 @@ public class SeatServiceImpl implements SeatService {
     public void save(Seat seat) {
         this.seatRepository.save(seat);
     }
+
+    @Override
+    public Seat findById(String id) {
+        return this.seatRepository.findFirstById(id);
+    }
 }

@@ -14,7 +14,7 @@ public class ReservationBinding {
     @NotEmpty(message = "Please choose hour")
     private String projectionHour;
 
-    @NotEmpty(message = "Please choose seats")
+    @NotEmpty(message = "Please choose seats ")
     private List<String> seats;
 
     @Min(value = 1, message = "You have to choose tickets!")
