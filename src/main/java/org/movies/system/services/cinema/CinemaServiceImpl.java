@@ -84,7 +84,6 @@ public class CinemaServiceImpl implements CinemaService {
                 currentHall.setName("Hall " + (k + 1));
                 for (int j = 1; j <= DEFAULT_HALL_SEATS; j++) {
                     Seat currentSeat = new Seat();
-                    currentSeat.setOccupied(false);
                     currentSeat.setSeatNumber(j);
                     currentHall.getSeats().add(currentSeat);
                     this.seatService.save(currentSeat);

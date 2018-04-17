@@ -12,9 +12,9 @@
 
 <div class="container pt-4 pb-5">
     <h1>Make Reservation</h1>
-    <!--/*@thymesVar id="reservationBinding" type="org.movies.system.models.binding.ReservationBinding"*/-->
     <!--/*@thymesVar id="projectionId" type="java.lang.String"*/-->
     <!--/*@thymesVar id="projection" type="org.movies.system.models.view.ProjectionViewDto"*/-->
+    <!--/*@thymesVar id="reservationBinding" type="org.movies.system.models.binding.ReservationBinding"*/-->
     <form class="mt-4" th:action="@{/reservations/add/{id} (id=${projectionId})}" method="POST"
           th:object="${reservationBinding}">
         <div class="row">
@@ -37,8 +37,7 @@
             <div class="form-group col-md-6">
                 <label for="projectionHour"><strong>Choose hour</strong></label><br/>
                 <th:block th:each="hour : ${projection.getHours().split(',')}">
-                    <span th:text="${hour}"
-                          class="badge badge-primary"
+                    <span th:text="${hour}" class="badge badge-primary"
                           th:classappend="${hour.equals(reservationBinding.getProjectionHour())} ? 'hour-selected'"></span>
                 </th:block>
                 <br/>
@@ -72,36 +71,36 @@
             <div class="col-sm-11 text-center">Screen</div>
         </div>
         <div class="table-responsive">
-
             <table class="table reservation-table">
                 <thead>
                 <tr></tr>
                 </thead>
                 <tbody>
-                <!--/*@thymesVar id="hall" type="org.movies.system.models.entities.Hall"*/-->
+
+                <!--/*@thymesVar id="hall" type="org.movies.system.models.view.HallViewDto"*/-->
                 <th:block th:each="seat, seatIter : ${hall.orderedSeats()}">
                     <th:block th:if="${seatIter.index == 0}">
                         <tr>
                             <td th:text="${seatIter.index + 1}" class="row-cell"></td>
-                            <td th:id="${seat.id}" th:text="${seat.getSeatNumber()}" class="seat-cell"
-                                th:classappend="${#lists.contains(reservationBinding.getSeats(), seat.id)} ? 'selected-seat'"></td>
+                            <td th:id="${seat.getSeatNumber()}" th:text="${seat.getSeatNumber()}" class="seat-cell"
+                                th:classappend="${#lists.contains(reservationBinding.getSeats(), seat.getSeatNumber() + '')} ? 'selected-seat'"></td>
                     </th:block>
                     <th:block th:if="${seatIter.index % 10 == 0 and seatIter.index != 0}">
                         </tr>
                         <tr>
                             <td th:text="${(seatIter.index / 10) + 1}" class="row-cell"></td>
-                            <td th:id="${seat.id}" th:text="${seat.getSeatNumber()}" class="seat-cell"
-                                th:classappend="${#lists.contains(reservationBinding.getSeats(), seat.id)} ? 'selected-seat'"></td>
+                            <td th:id="${seat.getSeatNumber()}" th:text="${seat.getSeatNumber()}" class="seat-cell"
+                                th:classappend="${#lists.contains(reservationBinding.getSeats(), seat.getSeatNumber() + '')} ? 'selected-seat'"></td>
                     </th:block>
                     <th:block th:if="${seatIter.index == hall.orderedSeats().size() - 1}">
-                        <td th:id="${seat.id}" th:text="${seat.getSeatNumber()}" class="seat-cell"
-                            th:classappend="${#lists.contains(reservationBinding.getSeats(), seat.id)} ? 'selected-seat'"></td>
+                        <td th:id="${seat.getSeatNumber()}" th:text="${seat.getSeatNumber()}" class="seat-cell"
+                            th:classappend="${#lists.contains(reservationBinding.getSeats(), seat.getSeatNumber() + '')} ? 'selected-seat'"></td>
                         </tr>
                     </th:block>
                     <th:block
                             th:if="${seatIter.index != 0 and seatIter.index % 10 != 0 and seatIter.index < hall.orderedSeats().size() - 1}">
-                        <td th:id="${seat.id}" th:text="${seat.getSeatNumber()}" class="seat-cell"
-                            th:classappend="${#lists.contains(reservationBinding.getSeats(), seat.id)} ? 'selected-seat'"></td>
+                        <td th:id="${seat.getSeatNumber()}" th:text="${seat.getSeatNumber()}" class="seat-cell"
+                            th:classappend="${#lists.contains(reservationBinding.getSeats(), seat.getSeatNumber() + '')} ? 'selected-seat'"></td>
                     </th:block>
                 </th:block>
                 </th:block>

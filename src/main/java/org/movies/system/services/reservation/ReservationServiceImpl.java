@@ -43,8 +43,12 @@ public class ReservationServiceImpl implements ReservationService {
     public void save(ReservationBinding reservationBinding) {
         Reservation reservation = this.modelMapper.map(reservationBinding, Reservation.class);
         reservation.setSeats(new HashSet<>());
-        for (String seatId : reservationBinding.getSeats()) {
-            Seat currentSeat = this.seatService.findById(seatId);
+        for (String seatNumber : reservationBinding.getSeats()) {
+//            Seat currentSeat = this.seatService.findById(seatNumber);
+            Seat currentSeat = reservationBinding.getProjection().getHall().getSeats()
+                    .stream()
+                    .filter(s -> s.getSeatNumber() == Integer.valueOf(seatNumber))
+                    .findFirst().orElse(null);
             reservation.getSeats().add(currentSeat);
             this.seatService.save(currentSeat);
         }

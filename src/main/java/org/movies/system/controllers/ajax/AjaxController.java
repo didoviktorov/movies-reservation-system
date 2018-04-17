@@ -49,7 +49,7 @@ public class AjaxController {
         List<String> seatsIds = new ArrayList<>();
         for (Reservation reservation : reservations) {
             reservation.getSeats().forEach(seat -> {
-                seatsIds.add(seat.getId());
+                seatsIds.add(seat.getSeatNumber() + "");
             });
         }
         return seatsIds;

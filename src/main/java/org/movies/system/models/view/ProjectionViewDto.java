@@ -15,7 +15,7 @@ public class ProjectionViewDto {
 
     private Cinema cinema;
 
-    private Hall hall;
+    private HallViewDto hall;
 
     public ProjectionViewDto() {
     }
@@ -44,11 +44,11 @@ public class ProjectionViewDto {
         this.cinema = cinema;
     }
 
-    public Hall getHall() {
+    public HallViewDto getHall() {
         return this.hall;
     }
 
-    public void setHall(Hall hall) {
+    public void setHall(HallViewDto hall) {
         this.hall = hall;
     }
 }

@@ -1,6 +1,10 @@
 $(document).ready(function () {
     let year = new Date().getFullYear();
     $("#footer-span").html("&copy; Movies Reservation System " + year);
+
+    if ($(".hour-selected")) {
+        getReservedSeats();
+    }
 });
 
 function getPosterUlr() {
@@ -64,14 +68,18 @@ $(document).on("click", ".badge", function () {
     currentBadge.addClass("hour-selected");
     $("#projectionHour").val(currentBadge.text());
 
-    let projectionId = $("#projection").val();
-    let hour = currentBadge.text();
-
     $(".seat-reserved").each(function () {
         $(this).removeClass("seat-reserved");
         $(this).addClass("seat-cell");
     });
 
+    getReservedSeats();
+});
+
+function getReservedSeats() {
+    let currentBadge = $(".hour-selected");
+    let projectionId = $("#projection").val();
+    let hour = currentBadge.text();
     $.ajax({
         type: "GET",
         url: "http://localhost:8000/reserved-seats?projection=" + projectionId + "&hour=" + hour,
@@ -84,12 +92,11 @@ $(document).on("click", ".badge", function () {
                 }
             });
         },
-        error: function (r) {
-            console.log(r);
+        error: function (err) {
+            console.log(err);
         }
     });
-
-});
+}
 
 $(document).on("change", "#tickets", function () {
     let price = Number.parseFloat($("#price-per-person").text());

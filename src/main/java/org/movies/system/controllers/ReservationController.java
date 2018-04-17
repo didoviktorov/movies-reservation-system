@@ -30,13 +30,13 @@ public class ReservationController extends BaseController {
 
     @GetMapping("/reservations/add/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView makerReservation(@PathVariable String id, @ModelAttribute ReservationBinding reservationBinding) {
+    public ModelAndView makeReservation(@PathVariable String id, @ModelAttribute ReservationBinding reservationBinding) {
         return this.getCreateReservationView(id, new ReservationBinding());
     }
 
     @PostMapping("/reservations/add/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView makerReservation(@PathVariable String id, @Valid @ModelAttribute ReservationBinding reservationBinding, BindingResult bindingResult) {
+    public ModelAndView makeReservation(@PathVariable String id, @Valid @ModelAttribute ReservationBinding reservationBinding, BindingResult bindingResult) {
         if (reservationBinding.getSeats().size() != reservationBinding.getTickets()) {
             bindingResult.rejectValue("seats", "error.reservationBinding", "Incorrect number of seats selected!");
         }
@@ -57,7 +57,7 @@ public class ReservationController extends BaseController {
                 id,
                 this.projectionService.findProjectionView(id),
                 reservationBinding,
-                this.projectionService.findById(id).getHall()
+                this.projectionService.findProjectionView(id).getHall(),
         };
 
         return this.view("reservations/add-reservation", names, objects);

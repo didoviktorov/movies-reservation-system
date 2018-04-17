@@ -16,8 +16,6 @@ public class Seat {
     )
     private String id;
 
-    private boolean isOccupied;
-
     private int seatNumber;
 
     public Seat() {
@@ -29,14 +27,6 @@ public class Seat {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public boolean isOccupied() {
-        return this.isOccupied;
-    }
-
-    public void setOccupied(boolean occupied) {
-        this.isOccupied = occupied;
     }
 
     public int getSeatNumber() {
