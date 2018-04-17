@@ -6,6 +6,7 @@ import org.movies.system.models.binding.ReservationBinding;
 import org.movies.system.models.entities.Reservation;
 import org.movies.system.models.entities.Seat;
 import org.movies.system.models.entities.User;
+import org.movies.system.models.view.ReservationViewDto;
 import org.movies.system.repositories.ReservationRepository;
 import org.movies.system.services.seat.SeatService;
 import org.movies.system.services.user.UserService;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -82,6 +84,17 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public List<Reservation> findAllByProjectionIdAndProjectionHour(String id, String projectionHour) {
         return this.reservationRepository.findAllByProjectionIdAndProjectionHour(id, projectionHour);
+    }
+
+    @Override
+    public List<ReservationViewDto> findAllByUserName(String username) {
+        String userId = this.userService.findFirstByUsername(username).getId();
+        List<ReservationViewDto> reservationViewDtos = this.reservationRepository.findAllByUserId(userId)
+                .stream().map(reservation -> this.modelMapper.map(reservation, ReservationViewDto.class))
+                .collect(Collectors.toList());
+
+
+        return reservationViewDtos;
     }
 
     private void checkReservation(Reservation reservation) {

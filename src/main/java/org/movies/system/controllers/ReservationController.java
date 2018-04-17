@@ -1,10 +1,12 @@
 package org.movies.system.controllers;
 
 import org.movies.system.models.binding.ReservationBinding;
-import org.movies.system.services.cinema.ProjectionService;
+import org.movies.system.models.view.ReservationViewDto;
+import org.movies.system.services.projection.ProjectionService;
 import org.movies.system.services.reservation.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class ReservationController extends BaseController {
@@ -48,6 +51,14 @@ public class ReservationController extends BaseController {
         this.reservationService.save(reservationBinding);
 
         return this.redirect("/");
+    }
+
+    @GetMapping("/reservations")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView myReservations() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<ReservationViewDto> dtos = this.reservationService.findAllByUserName(username);
+        return this.view("reservations/user-reservations","reservations", dtos);
     }
 
     private ModelAndView getCreateReservationView(@PathVariable String id, @Valid @ModelAttribute ReservationBinding reservationBinding) {

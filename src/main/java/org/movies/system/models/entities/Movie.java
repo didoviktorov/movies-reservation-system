@@ -8,6 +8,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Entity
 @Table(name = "movies")
@@ -38,6 +39,8 @@ public class Movie {
     private Long duration;
 
     private String trailerUrl;
+
+    private Date deletedOn;
 
     public Movie() {
     }
@@ -88,5 +91,13 @@ public class Movie {
 
     public void setTrailerUrl(String trailerUrl) {
         this.trailerUrl = trailerUrl;
+    }
+
+    public Date getDeletedOn() {
+        return this.deletedOn;
+    }
+
+    public void setDeletedOn(Date deletedOn) {
+        this.deletedOn = deletedOn;
     }
 }

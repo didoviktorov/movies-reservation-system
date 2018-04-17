@@ -43,6 +43,8 @@ public class Projection {
     @JoinColumn(name = "movie_id")
     private Movie movie;
 
+    private Date deletedOn;
+
     public Projection() {
     }
 
@@ -92,5 +94,13 @@ public class Projection {
 
     public void setMovie(Movie movie) {
         this.movie = movie;
+    }
+
+    public Date getDeletedOn() {
+        return this.deletedOn;
+    }
+
+    public void setDeletedOn(Date deletedOn) {
+        this.deletedOn = deletedOn;
     }
 }

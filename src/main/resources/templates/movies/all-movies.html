@@ -16,15 +16,15 @@
 
     <!--/*@thymesVar id="movies" type="java.awt.print.Pageable<org.movies.system.models.entities.Movie>"*/-->
     <th:block th:if="${movies == null}">
-    <div class="container text-center">
-    <h3>No available movies at this time!</h3>
-    </div>
+        <div class="container text-center">
+            <h3>No available movies at this time!</h3>
+        </div>
     </th:block>
-        <th:block th:if="${movies != null}">
+    <th:block th:if="${movies != null}">
 
         <table class="table table-hover pt-4">
             <thead>
-            <tr  class="row">
+            <tr class="row">
                 <th class="col-md-1" scope="row">#</th>
                 <th class="col-md-2" scope="row">Title</th>
                 <th class="col-md-2" scope="row">Poster</th>
@@ -36,7 +36,8 @@
             <tbody>
 
             <th:block th:each="movie, iterMovie : ${movies}">
-                <tr class="row movie-row" th:onclick="'window.location.href = \'' + @{/details/movie/{id}(id=${movie.id})} + '\''">
+                <tr class="row movie-row"
+                    th:onclick="'window.location.href = \'' + @{/details/movie/{id}(id=${movie.id})} + '\''">
                     <td class="col-md-1" scope="row" th:text="${
                     (movies.getPageable().getPageNumber() + 1 <= 1
                     ? 0
@@ -44,7 +45,7 @@
                     <td class="col-md-2" scope="row" th:text="${movie.title}"></td>
                     <td class="col-md-2" scope="row">
                         <div class='w-50 p-1' id="movie-poster">
-                            <img class="img-thumbnail" th:src="${movie.posterUrl}" alt="Poster" />
+                            <img class="img-thumbnail" th:src="${movie.posterUrl}" alt="Poster"/>
                         </div>
 
                     </td>
@@ -64,42 +65,42 @@
             </tbody>
         </table>
         <nav>
-        <ul class="pagination d-flex justify-content-center">
-            <!--Previous Button-->
-            <li class="page-item"><a class="page-link" th:if="${movies.hasPrevious()}"
-                                     th:href="@{/movies/show(page=${movies.previousPageable().getPageNumber() + 1} - 1)}">Previous</a>
-            </li>
+            <ul class="pagination d-flex justify-content-center">
+                <!--Previous Button-->
+                <li class="page-item"><a class="page-link" th:if="${movies.hasPrevious()}"
+                                         th:href="@{/movies/show(page=${movies.previousPageable().getPageNumber() + 1} - 1)}">Previous</a>
+                </li>
 
-            <!--Dot Button-->
-            <li class="page-item" id="first"><a class="page-link"
-                                                th:if="${movies.getPageable().getPageNumber() + 1 > 3 and movies.hasNext()}"
-                                                th:disabled="true">...</a></li>
+                <!--Dot Button-->
+                <li class="page-item" id="first"><a class="page-link"
+                                                    th:if="${movies.getPageable().getPageNumber() + 1 > 3 and movies.hasNext()}"
+                                                    th:disabled="true">...</a></li>
 
-            <!--Pagination Navigation-->
-            <th:block th:if="${movies.hasNext() and page_count > 3}" th:each="number : ${#numbers.sequence(
+                <!--Pagination Navigation-->
+                <th:block th:if="${movies.hasNext() and page_count > 3}" th:each="number : ${#numbers.sequence(
             ((movies.getPageable().getPageNumber()
             / 3) * 3)
             , ((movies.getPageable().getPageNumber()
             / 3) * 3) + 2)}">
-                <th:block th:if="${number < movies.getTotalPages()} ">
-                    <li class="page-item"
-                        th:classappend="${number == movies.getPageable().getPageNumber()  ? ' active' : ''}"><a
-                            class="page-link" th:text="${number + 1}" th:href="@{/movies/show(page=${number})}"></a>
-                    </li>
+                    <th:block th:if="${number < movies.getTotalPages()} ">
+                        <li class="page-item"
+                            th:classappend="${number == movies.getPageable().getPageNumber()  ? ' active' : ''}"><a
+                                class="page-link" th:text="${number + 1}" th:href="@{/movies/show(page=${number})}"></a>
+                        </li>
+                    </th:block>
                 </th:block>
-            </th:block>
 
-            <!--Dot Button-->
-            <li class="page-item" id="second"><a class="page-link"
-                                                 th:if="${movies.getPageable().getPageNumber() + 1 < movies.getTotalPages() - 1}"
-                                                 th:disabled="true">...</a></li>
+                <!--Dot Button-->
+                <li class="page-item" id="second"><a class="page-link"
+                                                     th:if="${movies.getPageable().getPageNumber() + 1 < movies.getTotalPages() - 1}"
+                                                     th:disabled="true">...</a></li>
 
-            <!--Next Button-->
-            <li class="page-item"><a class="page-link" th:if="${movies.hasNext()}"
-                                     th:href="@{/movies/show(page=${movies.nextPageable().getPageNumber()})}">Next</a>
-            </li>
-        </ul>
-    </nav>
+                <!--Next Button-->
+                <li class="page-item"><a class="page-link" th:if="${movies.hasNext()}"
+                                         th:href="@{/movies/show(page=${movies.nextPageable().getPageNumber()})}">Next</a>
+                </li>
+            </ul>
+        </nav>
     </th:block>
 </div>
 

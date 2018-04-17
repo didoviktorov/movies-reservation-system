@@ -2,6 +2,8 @@ package org.movies.system.controllers;
 
 import org.movies.system.models.binding.MovieBinding;
 import org.movies.system.models.entities.Movie;
+import org.movies.system.models.view.MovieSearchViewDto;
+import org.movies.system.models.view.MovieViewDto;
 import org.movies.system.services.movie.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

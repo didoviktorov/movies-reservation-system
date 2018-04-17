@@ -74,6 +74,7 @@ $(document).on("click", ".badge", function () {
     });
 
     getReservedSeats();
+    clearSeats(0)
 });
 
 function getReservedSeats() {

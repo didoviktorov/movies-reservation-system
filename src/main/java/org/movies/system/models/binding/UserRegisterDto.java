@@ -1,8 +1,6 @@
 package org.movies.system.models.binding;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 public class UserRegisterDto {
 
@@ -10,8 +8,8 @@ public class UserRegisterDto {
     @Size(min = 1, max = 50, message = "Invalid username - maximum size 15 symbols")
     private String username;
 
-    @NotNull
-    @Email(message = "Invalid email")
+    @NotEmpty(message = "Please enter email")
+    @Pattern(regexp = "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$", message = "Invalid email")
     private String email;
 
     @NotNull

@@ -17,6 +17,8 @@ public class ProjectionViewDto {
 
     private HallViewDto hall;
 
+    private MovieViewDto movie;
+
     public ProjectionViewDto() {
     }
 
@@ -50,5 +52,13 @@ public class ProjectionViewDto {
 
     public void setHall(HallViewDto hall) {
         this.hall = hall;
+    }
+
+    public MovieViewDto getMovie() {
+        return this.movie;
+    }
+
+    public void setMovie(MovieViewDto movie) {
+        this.movie = movie;
     }
 }

@@ -1,13 +1,13 @@
-package org.movies.system.services.cinema;
+package org.movies.system.services.projection;
 
 import org.modelmapper.ModelMapper;
 import org.movies.system.exceptions.BadRequestException;
 import org.movies.system.models.binding.ProjectionBinding;
 import org.movies.system.models.binding.ProjectionEditBinding;
 import org.movies.system.models.entities.Projection;
-import org.movies.system.models.entities.Reservation;
 import org.movies.system.models.view.ProjectionViewDto;
 import org.movies.system.repositories.ProjectionRepository;
+import org.movies.system.services.cinema.CinemaService;
 import org.movies.system.services.hall.HallService;
 import org.movies.system.services.movie.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional

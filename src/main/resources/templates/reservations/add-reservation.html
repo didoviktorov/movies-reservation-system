@@ -18,9 +18,13 @@
     <form class="mt-4" th:action="@{/reservations/add/{id} (id=${projectionId})}" method="POST"
           th:object="${reservationBinding}">
         <div class="row">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-3">
                 <label><strong>Projection date</strong></label><br/>
                 <span th:text="${#dates.format(projection.getProjectionDate(), 'yyyy-MM-dd EEE')}"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <label><strong>Movie</strong></label><br/>
+                <span th:text="${projection.getMovie().title}"></span>
             </div>
             <div class="form-group col-md-3">
                 <label><strong>Price per person</strong></label><br/>

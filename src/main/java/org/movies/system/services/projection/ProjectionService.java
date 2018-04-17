@@ -1,4 +1,4 @@
-package org.movies.system.services.cinema;
+package org.movies.system.services.projection;
 
 import org.movies.system.models.binding.ProjectionBinding;
 import org.movies.system.models.binding.ProjectionEditBinding;

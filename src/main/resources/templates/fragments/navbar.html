@@ -37,6 +37,9 @@
                 <a class="nav-link nav-link-white" href="/users">Users</a>
             </li>
             <li sec:authorize="isAuthenticated()" class="nav-item">
+                <a class="nav-link nav-link-white" href="/reservations">My Reservations</a>
+            </li>
+            <li sec:authorize="isAuthenticated()" class="nav-item">
                 <a class="nav-link nav-link-white" href="/logout">Logout</a>
             </li>
         </ul>

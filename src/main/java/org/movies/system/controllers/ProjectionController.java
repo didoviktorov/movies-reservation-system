@@ -4,7 +4,7 @@ import org.movies.system.models.binding.ProjectionBinding;
 import org.movies.system.models.binding.ProjectionEditBinding;
 import org.movies.system.models.entities.Projection;
 import org.movies.system.services.cinema.CinemaService;
-import org.movies.system.services.cinema.ProjectionService;
+import org.movies.system.services.projection.ProjectionService;
 import org.movies.system.services.movie.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
