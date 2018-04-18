@@ -11,7 +11,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, String
 
     Reservation findFirstById(String id);
 
-    List<Reservation> findAllByProjectionIdAndProjectionHour(String projectionId, String projectionHour);
+    List<Reservation> findAllByProjectionIdAndProjectionHourAndProjectionDeletedOnNull(String projectionId, String projectionHour);
 
-    List<Reservation> findAllByUserId(String id);
+    List<Reservation> findAllByUserIdAndProjectionDeletedOnNull(String id);
 }

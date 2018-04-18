@@ -93,7 +93,7 @@ public class ProjectionController extends BaseController {
 
     @GetMapping("/delete/projection/{id}")
     @PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
-    public ModelAndView deleteVirus(@PathVariable String id) {
+    public ModelAndView deleteProjection(@PathVariable String id) {
         this.projectionService.delete(id);
 
         return this.redirect("/projections/show");

@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -23,8 +24,11 @@ import java.util.List;
 public class ProjectionServiceImpl implements ProjectionService {
 
     private ProjectionRepository projectionRepository;
+
     private MovieService movieService;
+
     private CinemaService cinemaService;
+
     private HallService hallService;
 
     private ModelMapper modelMapper;
@@ -62,7 +66,7 @@ public class ProjectionServiceImpl implements ProjectionService {
 
     @Override
     public Page<Projection> findAllProjections(Pageable pageable) {
-        return this.projectionRepository.findAll(pageable);
+        return this.projectionRepository.findAllByDeletedOnNullAndMovieDeletedOnNull(pageable);
     }
 
     @Override
@@ -79,7 +83,7 @@ public class ProjectionServiceImpl implements ProjectionService {
 
     @Override
     public Page<Projection> findAllByCinema_Id(String cinema_id, Pageable pageable) {
-        return this.projectionRepository.findAllByCinema_Id(cinema_id, pageable);
+        return this.projectionRepository.findAllByCinemaIdAndDeletedOnNull(cinema_id, pageable);
     }
 
     @Override
@@ -90,7 +94,9 @@ public class ProjectionServiceImpl implements ProjectionService {
 
     @Override
     public void delete(String id) {
-        this.projectionRepository.delete(this.projectionRepository.findFirstById(id));
+        Projection projection = this.projectionRepository.findFirstById(id);
+        projection.setDeletedOn(new Date());
+        this.projectionRepository.save(projection);
     }
 
     public boolean validProjection(ProjectionBinding projectionBinding, ProjectionEditBinding projectionEditBinding, String editId) {

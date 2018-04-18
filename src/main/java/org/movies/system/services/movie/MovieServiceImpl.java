@@ -6,6 +6,7 @@ import org.movies.system.models.binding.MovieBinding;
 import org.movies.system.models.entities.Movie;
 import org.movies.system.models.view.MovieViewDto;
 import org.movies.system.repositories.MovieRepository;
+import org.movies.system.services.projection.ProjectionService;
 import org.movies.system.utils.EscapeCharacters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -58,12 +60,12 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> findAll() {
-        return this.movieRepository.findAll();
+        return this.movieRepository.findAllByDeletedOnNull();
     }
 
     @Override
     public Page<Movie> findAllMovies(Pageable pageable) {
-        return this.movieRepository.findAll(pageable);
+        return this.movieRepository.findAllByDeletedOnNull(pageable);
     }
 
     @Override
@@ -82,7 +84,10 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public void delete(String id) {
-        this.movieRepository.delete(this.movieRepository.getOne(id));
+        Movie movie = this.movieRepository.getOne(id);
+        movie.setDeletedOn(new Date());
+
+        this.movieRepository.save(movie);
     }
 
     private String getEmbedCode(String link) {

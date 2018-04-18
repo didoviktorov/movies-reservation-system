@@ -83,16 +83,20 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public List<Reservation> findAllByProjectionIdAndProjectionHour(String id, String projectionHour) {
-        return this.reservationRepository.findAllByProjectionIdAndProjectionHour(id, projectionHour);
+        return this.reservationRepository.findAllByProjectionIdAndProjectionHourAndProjectionDeletedOnNull(id, projectionHour)
+                .stream()
+                .filter(r -> r.getProjection().getMovie().getDeletedOn() == null)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<ReservationViewDto> findAllByUserName(String username) {
         String userId = this.userService.findFirstByUsername(username).getId();
-        List<ReservationViewDto> reservationViewDtos = this.reservationRepository.findAllByUserId(userId)
-                .stream().map(reservation -> this.modelMapper.map(reservation, ReservationViewDto.class))
+        List<ReservationViewDto> reservationViewDtos = this.reservationRepository.findAllByUserIdAndProjectionDeletedOnNull(userId)
+                .stream()
+                .filter(r -> r.getProjection().getMovie().getDeletedOn() == null)
+                .map(reservation -> this.modelMapper.map(reservation, ReservationViewDto.class))
                 .collect(Collectors.toList());
-
 
         return reservationViewDtos;
     }
