@@ -1,8 +1,8 @@
 package org.movies.system.interceptors;
 
-import org.movies.system.services.cinema.CinemaService;
-import org.movies.system.services.role.RoleService;
-import org.movies.system.services.user.UserService;
+import org.movies.system.areas.cinemas.services.CinemaService;
+import org.movies.system.areas.roles.services.RoleService;
+import org.movies.system.areas.users.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;

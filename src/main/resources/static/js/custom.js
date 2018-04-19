@@ -38,7 +38,7 @@ function getHalls() {
             url: "http://localhost:8000/cinema_ajax/" + cinemaId,
             success: function (data) {
                 clearOptions();
-                let halls = data["halls"];
+                let halls = data["halls"].sort((h1, h2) => h1['name'].localeCompare(h2['name']));
                 let hallsContainer = $("#hall");
                 for (let i = 0; i < halls.length; i++) {
                     let newOption = $("<option></option>");

@@ -12,7 +12,7 @@
 
     <div class="container mt-4 mb-5">
         <h1>Login</h1>
-        <!--/*@thymesVar id="userLoginDto" type="org.movies.system.models.binding.UserLoginDto"*/-->
+        <!--/*@thymesVar id="userLoginDto" type="org.movies.system.areas.users.models.binding.UserLoginDto"*/-->
         <form class="mt-4" th:action="@{/login}" method="POST" th:object="${userLoginDto}">
             <!--/*@thymesVar id="error" type="java.lang.String"*/-->
             <th:block th:if="${error != null}">

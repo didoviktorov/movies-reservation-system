@@ -9,12 +9,24 @@
 <th:block>
     <div th:replace="~{fragments/navbar}"></div>
 </th:block>
-<!--/*@thymesVar id="movies" type="java.util.Page<org.movies.system.models.entities.Movie>"*/-->
+<!--/*@thymesVar id="movies" type="java.util.Page<org.movies.system.areas.movies.entities.Movie>"*/-->
 <!--th:with="previousPageIndex = ${movies.previousPageable().getPageNumber() + 1}, currentPageIndex = ${movies.getPageable().getPageNumber() + 1}, nextPageIndex = ${movies.nextPageable().getPageNumber() + 1}"-->
 <div class="container pt-4 pb-5">
     <h2>All Movies</h2>
+    <!--/*@thymesVar id="movieSearchDto" type="org.movies.system.areas.movies.models.view.MovieSearchViewDto"*/-->
 
-    <!--/*@thymesVar id="movies" type="java.awt.print.Pageable<org.movies.system.models.entities.Movie>"*/-->
+    <form method="POST" class="pt-2 pb-4" th:action="@{/movies/search}" th:object="${movieSearchDto}">
+        <div class="row pt-2 pb-2">
+            <div class="col-sm-10">
+                <input type="text" id="title" name="title" class="form-control border-dark" placeholder="Title...">
+            </div>
+            <div class="col-sm-2">
+                <input type="submit" class="form-control btn btn-primary" value="Search">
+            </div>
+
+        </div>
+    </form>
+    <!--/*@thymesVar id="movies" type="java.awt.print.Pageable<org.movies.system.areas.movies.entities.Movie>"*/-->
     <th:block th:if="${movies == null}">
         <div class="container text-center">
             <h3>No available movies at this time!</h3>

@@ -9,12 +9,12 @@
 <th:block>
     <div th:replace="~{fragments/navbar}"></div>
 </th:block>
-<!--/*@thymesVar id="projections" type="java.util.Page<org.movies.system.models.entities.Projection>"*/-->
+<!--/*@thymesVar id="projections" type="java.util.Page<org.movies.system.areas.projections.entities.Projection>"*/-->
 <!--th:with="previousPageIndex = ${projections.previousPageable().getPageNumber() + 1}, currentPageIndex = ${projections.getPageable().getPageNumber() + 1}, nextPageIndex = ${projections.nextPageable().getPageNumber() + 1}"-->
 <div class="container pt-4 pb-5">
     <h2>All Projections</h2>
 
-    <!--/*@thymesVar id="projections" type="java.awt.print.Pageable<org.movies.system.models.entities.Projection>"*/-->
+    <!--/*@thymesVar id="projections" type="java.awt.print.Pageable<org.movies.system.areas.projections.entities.Projection>"*/-->
     <th:block th:if="${projections == null}">
         <div class="container text-center">
             <h3>No available projections at this time!</h3>

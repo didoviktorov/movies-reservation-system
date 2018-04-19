@@ -23,7 +23,7 @@
         </tr>
         </thead>
         <tbody>
-        <!--/*@thymesVar id="users" type="java.util.List<org.movies.system.models.entities.User>"*/-->
+        <!--/*@thymesVar id="users" type="java.util.List<org.movies.system.areas.users.entities.User>"*/-->
         <th:block th:each="user, iterUser : ${users}">
             <tr th:if="${#authentication.principal.getUsername() != user.username}">
                 <td th:text="${iterUser.index + 1}"></td>

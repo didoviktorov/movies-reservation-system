@@ -11,7 +11,7 @@
 </th:block>
 <div class="container pt-4 pb-5">
     <h2>Your Reservations</h2>
-    <!--/*@thymesVar id="reservations" type="java.util.Page<org.movies.system.models.view.ReservationViewDto>"*/-->
+    <!--/*@thymesVar id="reservations" type="java.util.Page<org.movies.system.areas.reservations.models.view.ReservationViewDto>"*/-->
     <th:block th:if="${reservations.size() == 0}">
         <div class="container text-center">
             <h3>Not available reservations at this time!</h3>

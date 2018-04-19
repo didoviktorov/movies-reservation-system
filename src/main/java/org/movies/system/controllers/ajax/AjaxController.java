@@ -1,9 +1,9 @@
 package org.movies.system.controllers.ajax;
 
-import org.movies.system.models.entities.Cinema;
-import org.movies.system.models.entities.Reservation;
-import org.movies.system.services.cinema.CinemaService;
-import org.movies.system.services.reservation.ReservationService;
+import org.movies.system.areas.cinemas.entities.Cinema;
+import org.movies.system.areas.reservations.entities.Reservation;
+import org.movies.system.areas.cinemas.services.CinemaService;
+import org.movies.system.areas.reservations.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

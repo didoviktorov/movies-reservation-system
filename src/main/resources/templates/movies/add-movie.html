@@ -12,7 +12,7 @@
 
     <div class="container pt-4 pb-5">
         <h1>Add Movie</h1>
-        <!--/*@thymesVar id="movieBinding" type="org.movies.system.models.binding.MovieBinding"*/-->
+        <!--/*@thymesVar id="movieBinding" type="org.movies.system.areas.movies.models.binding.MovieBinding"*/-->
         <form class="mt-4" th:action="@{/movies/add}" method="POST" th:object="${movieBinding}">
             <div class="form-group">
                 <label for="posterUrl">Poster URL</label>

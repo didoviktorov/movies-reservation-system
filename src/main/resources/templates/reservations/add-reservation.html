@@ -13,8 +13,8 @@
 <div class="container pt-4 pb-5">
     <h1>Make Reservation</h1>
     <!--/*@thymesVar id="projectionId" type="java.lang.String"*/-->
-    <!--/*@thymesVar id="projection" type="org.movies.system.models.view.ProjectionViewDto"*/-->
-    <!--/*@thymesVar id="reservationBinding" type="org.movies.system.models.binding.ReservationBinding"*/-->
+    <!--/*@thymesVar id="projection" type="org.movies.system.areas.projections.models.view.ProjectionViewDto"*/-->
+    <!--/*@thymesVar id="reservationBinding" type="org.movies.system.areas.reservations.models.binding.ReservationBinding"*/-->
     <form class="mt-4" th:action="@{/reservations/add/{id} (id=${projectionId})}" method="POST"
           th:object="${reservationBinding}">
         <div class="row">
@@ -81,7 +81,7 @@
                 </thead>
                 <tbody>
 
-                <!--/*@thymesVar id="hall" type="org.movies.system.models.view.HallViewDto"*/-->
+                <!--/*@thymesVar id="hall" type="org.movies.system.areas.halls.models.HallViewDto"*/-->
                 <th:block th:each="seat, seatIter : ${hall.orderedSeats()}">
                     <th:block th:if="${seatIter.index == 0}">
                         <tr>

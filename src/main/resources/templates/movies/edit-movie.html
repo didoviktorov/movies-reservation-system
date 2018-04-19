@@ -12,7 +12,7 @@
 
     <div class="container pt-4 pb-5">
         <h1>Edit Movie</h1>
-        <!--/*@thymesVar id="movieBinding" type="org.movies.system.models.binding.MovieBinding"*/-->
+        <!--/*@thymesVar id="movieBinding" type="org.movies.system.areas.movies.models.binding.MovieBinding"*/-->
         <!--/*@thymesVar id="movieId" type="java.lang.String"*/-->
         <form class="mt-4" th:action="@{/edit/movie/{id} (id=${movieId})}" method="POST" th:object="${movieBinding}">
             <div class="form-group">

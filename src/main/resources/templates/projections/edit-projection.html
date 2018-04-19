@@ -12,7 +12,7 @@
 
     <div class="container pt-4 pb-5">
         <h1>Edit Projection</h1>
-        <!--/*@thymesVar id="projectionEditBinding" type="org.movies.system.models.binding.ProjectionEditBinding"*/-->
+        <!--/*@thymesVar id="projectionEditBinding" type="org.movies.system.areas.projections.models.binding.ProjectionEditBinding"*/-->
         <!--/*@thymesVar id="projectionId" type="java.lang.String"*/-->
         <form class="mt-4" th:action="@{/edit/projection/{id} (id=${projectionId})}" method="POST" th:object="${projectionEditBinding}">
             <th:block th:if="${error}">
@@ -30,7 +30,7 @@
             <div class="form-group">
                 <label for="movie">Change Movie</label>
                 <select class="form-control" id="movie" name="movie">
-                    <!--/*@thymesVar id="movies" type="java.util.List<org.movies.system.models.entities.Movie>"*/-->
+                    <!--/*@thymesVar id="movies" type="java.util.List<org.movies.system.areas.movies.entities.Movie>"*/-->
                     <th:block th:each="movie : ${movies}">
                         <option th:value="${movie.id}" th:text="${movie.title}" th:selected="${movie.id.equals(projectionEditBinding.movie.id)}"></option>
                     </th:block>
