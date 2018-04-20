@@ -118,5 +118,25 @@
 
 <th:block th:replace="~{fragments/footer}">
 </th:block>
+<!--/*@thymesVar id="success" type="java.lang.Object"*/-->
+<script th:if="${success}">
+    new Noty({
+        text: 'Successfully created movie.',
+        layout: 'topCenter',
+        type: 'success',
+        theme: 'mint',
+        timeout: 3000
+    }).show();
+</script>
+<!--/*@thymesVar id="edit" type="java.lang.Object"*/-->
+<script th:if="${edit}">
+    new Noty({
+        text: 'Successfully edited movie.',
+        layout: 'topCenter',
+        type: 'success',
+        theme: 'mint',
+        timeout: 3000
+    }).show();
+</script>
 </body>
 </html>

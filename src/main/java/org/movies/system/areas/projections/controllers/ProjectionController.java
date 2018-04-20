@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -57,7 +58,7 @@ public class ProjectionController extends BaseController {
 
     @PostMapping("/projections/add")
     @PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
-    public ModelAndView addProjection(@Valid @ModelAttribute ProjectionBinding projectionBinding, BindingResult bindingResult) {
+    public ModelAndView addProjection(@Valid @ModelAttribute ProjectionBinding projectionBinding, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return getModelErrorAndView(projectionBinding, null);
         }
@@ -67,6 +68,8 @@ public class ProjectionController extends BaseController {
         }
 
         this.projectionService.save(projectionBinding);
+
+        redirectAttributes.addFlashAttribute("success", "added");
 
         return this.redirect("/projections/show");
     }
@@ -79,7 +82,7 @@ public class ProjectionController extends BaseController {
 
     @PostMapping("/edit/projection/{id}")
     @PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
-    public ModelAndView editProjection(@PathVariable String id, @Valid @ModelAttribute ProjectionEditBinding projectionEditBinding, BindingResult bindingResult) {
+    public ModelAndView editProjection(@PathVariable String id, @Valid @ModelAttribute ProjectionEditBinding projectionEditBinding, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return this.getModelEditAndView(id, projectionEditBinding, null);
         }
@@ -88,7 +91,7 @@ public class ProjectionController extends BaseController {
             return this.getModelEditAndView(id, projectionEditBinding, INVALID_PROJECTION_MESSAGE);
         }
         this.projectionService.edit(id, projectionEditBinding);
-
+        redirectAttributes.addFlashAttribute("edit", "added");
         return this.redirect("/projections/show");
     }
 

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -40,7 +41,7 @@ public class ReservationController extends BaseController {
 
     @PostMapping("/reservations/add/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView makeReservation(@PathVariable String id, @Valid @ModelAttribute ReservationBinding reservationBinding, BindingResult bindingResult) {
+    public ModelAndView makeReservation(@PathVariable String id, @Valid @ModelAttribute ReservationBinding reservationBinding, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (reservationBinding.getSeats().size() != reservationBinding.getTickets()) {
             bindingResult.rejectValue("seats", "error.reservationBinding", "Incorrect number of seats selected!");
         }
@@ -50,6 +51,8 @@ public class ReservationController extends BaseController {
         }
 
         this.reservationService.save(reservationBinding);
+
+        redirectAttributes.addFlashAttribute("success", "added");
 
         return this.redirect("/");
     }

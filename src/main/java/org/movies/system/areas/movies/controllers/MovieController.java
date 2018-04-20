@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -38,12 +39,14 @@ public class MovieController extends BaseController {
 
     @PostMapping("/movies/add")
     @PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
-    public ModelAndView addMovie(@Valid @ModelAttribute MovieBinding movieBinding, BindingResult bindingResult) {
+    public ModelAndView addMovie(@Valid @ModelAttribute MovieBinding movieBinding, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return this.view("movies/add-movie", "movieBinding", movieBinding);
         }
 
         this.movieService.save(movieBinding);
+
+        redirectAttributes.addFlashAttribute("success", "added");
 
         return this.redirect("/movies/show");
     }
@@ -92,7 +95,7 @@ public class MovieController extends BaseController {
 
     @PostMapping("/edit/movie/{id}")
     @PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
-    public ModelAndView editMovie(@PathVariable String id, @Valid @ModelAttribute MovieBinding movieBinding, BindingResult bindingResult) {
+    public ModelAndView editMovie(@PathVariable String id, @Valid @ModelAttribute MovieBinding movieBinding, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             String[] names = {"movieBinding", "movieId"};
             Object[] objects = {movieBinding, id};
@@ -101,6 +104,8 @@ public class MovieController extends BaseController {
         }
 
         this.movieService.edit(id, movieBinding);
+
+        redirectAttributes.addFlashAttribute("edit", "added");
 
         return this.redirect("/movies/show");
     }

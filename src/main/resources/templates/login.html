@@ -33,5 +33,16 @@
     </div>
     <th:block th:replace="~{fragments/footer}">
     </th:block>
+
+    <!--/*@thymesVar id="success" type="java.lang.Object"*/-->
+<script th:if="${success}">
+    new Noty({
+        text: 'Successfully registered.',
+        layout: 'topCenter',
+        type: 'success',
+        theme: 'mint',
+        timeout: 3000
+    }).show();
+</script>
 </body>
 </html>

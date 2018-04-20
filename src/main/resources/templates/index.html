@@ -32,5 +32,15 @@
 <script type="text/javascript">
     $(document).ready(getCinemas())
 </script>
+<!--/*@thymesVar id="success" type="java.lang.Object"*/-->
+<script th:if="${success}">
+    new Noty({
+        text: 'Successful reservation',
+        layout: 'topCenter',
+        type: 'success',
+        theme: 'mint',
+        timeout: 3000
+    }).show();
+</script>
 </body>
 </html>

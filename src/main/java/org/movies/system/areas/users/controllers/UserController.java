@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
@@ -35,7 +37,7 @@ public class UserController extends BaseController {
 
     @PostMapping("/register")
     @PreAuthorize("isAnonymous()")
-    public ModelAndView registerUser(@Valid @ModelAttribute UserRegisterDto userRegisterDto, BindingResult bindingResult) {
+    public ModelAndView registerUser(@Valid @ModelAttribute UserRegisterDto userRegisterDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return this.view("register", "userRegisterDto", userRegisterDto);
         }
@@ -53,15 +55,18 @@ public class UserController extends BaseController {
 
         this.userService.register(userRegisterDto);
 
+        redirectAttributes.addFlashAttribute("success", "registered");
+
         return this.redirect("/login");
     }
 
     @GetMapping("/login")
     @PreAuthorize("isAnonymous()")
-    public ModelAndView loginUser(@RequestParam(required = false) String error, @ModelAttribute UserLoginDto userLoginDto) {
+    public ModelAndView loginUser(@RequestParam(required = false) String error, @ModelAttribute UserLoginDto userLoginDto, Model model) {
         if (error != null) {
             return this.view("login", "error", "Invalid credentials!");
         }
+
 
         return this.view("login");
     }

@@ -20,7 +20,7 @@ public class ScheduledTasks {
         this.reservationService = reservationService;
     }
 
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "0 * * * * *") // for every minute just for demonstration
 //    @Scheduled(cron = "0 0 0 * * *") // for every day at midnight
     public void totalReservationsByDate() {
         List<Reservation> totalReservations = this.reservationService.findAll();
@@ -30,7 +30,7 @@ public class ScheduledTasks {
         }
 
         double profit = totalReservations.stream()
-                .mapToDouble(r -> r.getPrice())
+                .mapToDouble(Reservation::getPrice)
                 .sum();
         BigDecimal totalProfit = new BigDecimal("0");
         totalProfit = totalProfit.add(new BigDecimal(profit + ""));
