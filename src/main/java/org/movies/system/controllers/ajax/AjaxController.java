@@ -46,12 +46,12 @@ public class AjaxController {
         String projectionId = request.getParameter("projection");
         String hour = request.getParameter("hour");
         List<Reservation> reservations = this.reservationService.findAllByProjectionIdAndProjectionHour(projectionId, hour);
-        List<String> seatsIds = new ArrayList<>();
+        List<String> seatsNumbers = new ArrayList<>();
         for (Reservation reservation : reservations) {
             reservation.getSeats().forEach(seat -> {
-                seatsIds.add(seat.getSeatNumber() + "");
+                seatsNumbers.add(seat.getSeatNumber() + "");
             });
         }
-        return seatsIds;
+        return seatsNumbers;
     }
 }

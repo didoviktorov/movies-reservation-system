@@ -27,7 +27,6 @@ public class CinemaController extends BaseController {
         this.cinemaService = cinemaService1;
     }
 
-
     @GetMapping("/cinema/{name}")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView allCinemaProjections(@PathVariable String name, @PageableDefault(size = 5)Pageable pageable) {

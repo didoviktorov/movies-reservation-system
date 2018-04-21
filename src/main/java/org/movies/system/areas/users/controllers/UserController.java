@@ -67,7 +67,6 @@ public class UserController extends BaseController {
             return this.view("login", "error", "Invalid credentials!");
         }
 
-
         return this.view("login");
     }
 }

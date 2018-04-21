@@ -14,7 +14,7 @@
                 <a class="nav-link nav-link-white" th:href="@{/login}">Login</a>
             </li>
             <li sec:authorize="isAuthenticated()" class="nav-item dropdown disabled">
-                <a class="nav-link dropdown-toggle nav-link-white" href="#" id="navbarDropdown" role="button"
+                <a class="nav-link dropdown-toggle nav-link-white" href="#" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Movies
                 </a>
@@ -24,7 +24,7 @@
                 </div>
             </li>
             <li sec:authorize="isAuthenticated()" class="nav-item dropdown disabled">
-                <a class="nav-link dropdown-toggle nav-link-white" href="#" id="navbarDropdown" role="button"
+                <a class="nav-link dropdown-toggle nav-link-white" href="#" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Movies Projections
                 </a>
