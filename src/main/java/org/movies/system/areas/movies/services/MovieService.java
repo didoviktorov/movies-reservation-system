@@ -2,6 +2,7 @@ package org.movies.system.areas.movies.services;
 
 import org.movies.system.areas.movies.models.binding.MovieBinding;
 import org.movies.system.areas.movies.entities.Movie;
+import org.movies.system.areas.movies.models.test.MovieTestBinding;
 import org.movies.system.areas.movies.models.view.MovieViewDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +18,7 @@ public interface MovieService {
 
     Movie findByTitle(String title);
 
-    void save(MovieBinding movieBinding);
+    MovieTestBinding save(MovieBinding movieBinding);
 
     void edit(String id, MovieBinding movieBinding);
 

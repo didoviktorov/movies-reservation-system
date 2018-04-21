@@ -1,6 +1,7 @@
 package org.movies.system.areas.movies.services;
 
 import org.modelmapper.ModelMapper;
+import org.movies.system.areas.movies.models.test.MovieTestBinding;
 import org.movies.system.exceptions.BadRequestException;
 import org.movies.system.areas.movies.models.binding.MovieBinding;
 import org.movies.system.areas.movies.entities.Movie;
@@ -48,10 +49,11 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void save(MovieBinding movieBinding) {
+    public MovieTestBinding save(MovieBinding movieBinding) {
         Movie movie = this.modelMapper.map(movieBinding, Movie.class);
         movie.setTrailerUrl(getEmbedCode(movie.getTrailerUrl()));
-        this.movieRepository.save(movie);
+        Movie movie1 = this.movieRepository.save(movie);
+        return this.modelMapper.map(movie1, MovieTestBinding.class);
     }
 
     @Override

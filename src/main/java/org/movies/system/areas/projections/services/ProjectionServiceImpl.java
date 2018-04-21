@@ -1,7 +1,7 @@
 package org.movies.system.areas.projections.services;
 
 import org.modelmapper.ModelMapper;
-import org.movies.system.areas.projections.models.test.ProjectionTestBinding;
+import org.movies.system.areas.movies.entities.Movie;
 import org.movies.system.exceptions.BadRequestException;
 import org.movies.system.areas.projections.models.binding.ProjectionBinding;
 import org.movies.system.areas.projections.models.binding.ProjectionEditBinding;
@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -49,15 +50,14 @@ public class ProjectionServiceImpl implements ProjectionService {
     }
 
     @Override
-    public ProjectionTestBinding save(ProjectionBinding projectionBinding) {
+    public void save(ProjectionBinding projectionBinding) {
         Projection projection = this.modelMapper.map(projectionBinding, Projection.class);
-        projection.setMovie(this.movieService.findByTitle(projectionBinding.getMovie()));
+        Movie mTest = this.movieService.findByTitle(projectionBinding.getMovie());
+        projection.setMovie(mTest);
         projection.setCinema(this.cinemaService.findByName(projectionBinding.getCinema()));
         projection.setHall(this.hallService.findByName(projectionBinding.getHall()));
 
-        Projection projection1 = this.projectionRepository.save(projection);
-        ProjectionTestBinding testBinding = this.modelMapper.map(projection1, ProjectionTestBinding.class);
-        return testBinding;
+        this.projectionRepository.save(projection);
     }
 
     @Override
@@ -104,19 +104,21 @@ public class ProjectionServiceImpl implements ProjectionService {
     }
 
     public boolean validProjection(ProjectionBinding projectionBinding, ProjectionEditBinding projectionEditBinding, String editId) {
-        List<Projection> allProjections = this.projectionRepository.findAll();
+        List<Projection> allProjections = this.projectionRepository.findAllByDeletedOnNullAndMovieDeletedOnNull();
         boolean isSameCinema;
         boolean isSameHall;
         boolean isSameDate;
         for (Projection currentProjection : allProjections) {
             if (projectionBinding != null) {
-                isSameCinema = currentProjection.getCinema().getId().equals(projectionBinding.getCinema());
-                isSameHall = currentProjection.getHall().getId().equals(projectionBinding.getHall());
-                isSameDate = currentProjection.getProjectionDate().compareTo(projectionBinding.getProjectionDate()) == 0;
+                isSameCinema = currentProjection.getCinema().getName().equals(projectionBinding.getCinema());
+                isSameHall = currentProjection.getHall().getName().equals(projectionBinding.getHall());
+                isSameDate = this.getZeroTimeDate(currentProjection.getProjectionDate())
+                        .compareTo(this.getZeroTimeDate(projectionBinding.getProjectionDate())) == 0;
             } else {
-                isSameCinema = currentProjection.getCinema().getId().equals(projectionEditBinding.getCinema().getId());
+                isSameCinema = currentProjection.getCinema().getName().equals(projectionEditBinding.getCinema().getName());
                 isSameHall = currentProjection.getHall().getId().equals(projectionEditBinding.getHall().getId());
-                isSameDate = currentProjection.getProjectionDate().compareTo(projectionEditBinding.getProjectionDate()) == 0;
+                isSameDate = this.getZeroTimeDate(currentProjection.getProjectionDate())
+                        .compareTo(this.getZeroTimeDate(projectionEditBinding.getProjectionDate())) == 0;
             }
 
             if (isSameCinema && isSameHall && isSameDate) {
@@ -139,5 +141,16 @@ public class ProjectionServiceImpl implements ProjectionService {
         if (projection == null) {
             throw new BadRequestException();
         }
+    }
+
+    private Date getZeroTimeDate(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        date = calendar.getTime();
+        return date;
     }
 }

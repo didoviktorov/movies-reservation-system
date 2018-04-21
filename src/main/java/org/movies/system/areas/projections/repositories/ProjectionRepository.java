@@ -6,12 +6,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ProjectionRepository extends JpaRepository<Projection, String> {
 
     Projection findFirstById(String id);
 
     Page<Projection> findAllByDeletedOnNullAndMovieDeletedOnNull(Pageable pageable);
+
+    List<Projection> findAllByDeletedOnNullAndMovieDeletedOnNull();
 
     Page<Projection> findAllByCinemaNameAndDeletedOnNullAndMovieDeletedOnNull(String cinemaName, Pageable pageable);
 }
