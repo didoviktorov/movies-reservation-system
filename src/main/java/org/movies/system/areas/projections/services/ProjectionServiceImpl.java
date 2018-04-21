@@ -1,6 +1,7 @@
 package org.movies.system.areas.projections.services;
 
 import org.modelmapper.ModelMapper;
+import org.movies.system.areas.projections.models.test.ProjectionTestBinding;
 import org.movies.system.exceptions.BadRequestException;
 import org.movies.system.areas.projections.models.binding.ProjectionBinding;
 import org.movies.system.areas.projections.models.binding.ProjectionEditBinding;
@@ -48,13 +49,15 @@ public class ProjectionServiceImpl implements ProjectionService {
     }
 
     @Override
-    public void save(ProjectionBinding projectionBinding) {
+    public ProjectionTestBinding save(ProjectionBinding projectionBinding) {
         Projection projection = this.modelMapper.map(projectionBinding, Projection.class);
-        projection.setMovie(this.movieService.findById(projectionBinding.getMovie()));
-        projection.setCinema(this.cinemaService.findById(projectionBinding.getCinema()));
-        projection.setHall(this.hallService.findById(projectionBinding.getHall()));
+        projection.setMovie(this.movieService.findByTitle(projectionBinding.getMovie()));
+        projection.setCinema(this.cinemaService.findByName(projectionBinding.getCinema()));
+        projection.setHall(this.hallService.findByName(projectionBinding.getHall()));
 
-        this.projectionRepository.save(projection);
+        Projection projection1 = this.projectionRepository.save(projection);
+        ProjectionTestBinding testBinding = this.modelMapper.map(projection1, ProjectionTestBinding.class);
+        return testBinding;
     }
 
     @Override
@@ -82,8 +85,8 @@ public class ProjectionServiceImpl implements ProjectionService {
     }
 
     @Override
-    public Page<Projection> findAllByCinema_Id(String cinema_id, Pageable pageable) {
-        return this.projectionRepository.findAllByCinemaIdAndDeletedOnNullAndMovieDeletedOnNull(cinema_id, pageable);
+    public Page<Projection> findAllByCinemaName(String cinemaName, Pageable pageable) {
+        return this.projectionRepository.findAllByCinemaNameAndDeletedOnNullAndMovieDeletedOnNull(cinemaName, pageable);
     }
 
 

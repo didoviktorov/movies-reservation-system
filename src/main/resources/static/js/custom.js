@@ -22,7 +22,7 @@ function getAllCinemas() {
             let containerDiv = $("#cinema");
             for (let i = 0; i < data.length; i++) {
                 let newOption = $("<option></option>");
-                newOption.val(data[i]["id"]);
+                newOption.val(data[i]["name"]);
                 newOption.text(data[i]["name"]);
                 containerDiv.append(newOption);
             }
@@ -31,18 +31,18 @@ function getAllCinemas() {
 }
 
 function getHalls() {
-    let cinemaId = $("#cinema").find(":selected").val();
-    if (cinemaId !== "") {
+    let cinemaName = $("#cinema").find(":selected").val();
+    if (cinemaName !== "") {
         $.ajax({
             type: "GET",
-            url: "http://localhost:8000/cinema_ajax/" + cinemaId,
+            url: "http://localhost:8000/cinema_ajax/" + cinemaName,
             success: function (data) {
                 clearOptions();
                 let halls = data["halls"].sort((h1, h2) => h1['name'].localeCompare(h2['name']));
                 let hallsContainer = $("#hall");
                 for (let i = 0; i < halls.length; i++) {
                     let newOption = $("<option></option>");
-                    newOption.val(halls[i]["id"]);
+                    newOption.val(halls[i]["name"]);
                     newOption.text(halls[i]["name"]);
                     hallsContainer.append(newOption);
                 }

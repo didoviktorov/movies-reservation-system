@@ -9,4 +9,5 @@ public interface HallRepository extends JpaRepository<Hall, String> {
 
     Hall findFirstById(String id);
 
+    Hall findFirstByName(String name);
 }

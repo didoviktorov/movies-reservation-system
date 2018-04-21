@@ -13,6 +13,8 @@ public interface MovieRepository extends JpaRepository<Movie, String> {
 
     Movie findFirstById(String id);
 
+    Movie findFirstByTitle(String title);
+
     Page<Movie> findAllByDeletedOnNull(Pageable pageable);
 
     Page<Movie> findAllByTitleContainingAndDeletedOnNull(String title, Pageable pageable);

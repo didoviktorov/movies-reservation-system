@@ -28,17 +28,17 @@ public class CinemaController extends BaseController {
     }
 
 
-    @GetMapping("/cinema/{id}")
+    @GetMapping("/cinema/{name}")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView allCinemaProjections(@PathVariable String id, @PageableDefault(size = 5)Pageable pageable) {
+    public ModelAndView allCinemaProjections(@PathVariable String name, @PageableDefault(size = 5)Pageable pageable) {
         String[] names = {"projections", "page_count", "cinema"};
 
-        Page<Projection> projections = this.projectionService.findAllByCinema_Id(id, pageable);
+        Page<Projection> projections = this.projectionService.findAllByCinemaName(name, pageable);
 
         Object[] objects = {
                 projections.getTotalPages() == 0 ? null : projections,
                 this.projectionService.projectionsCount() / 5,
-                this.cinemaService.findById(id).getName()
+                this.cinemaService.findByName(name).getName()
         };
 
         return this.view("projections/all-projections", names, objects);

@@ -43,6 +43,11 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public Movie findByTitle(String title) {
+        return this.movieRepository.findFirstByTitle(title);
+    }
+
+    @Override
     public void save(MovieBinding movieBinding) {
         Movie movie = this.modelMapper.map(movieBinding, Movie.class);
         movie.setTrailerUrl(getEmbedCode(movie.getTrailerUrl()));

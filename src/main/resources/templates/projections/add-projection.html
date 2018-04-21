@@ -30,7 +30,7 @@
                 <select class="form-control" id="movie" name="movie">
                     <!--/*@thymesVar id="movies" type="java.util.List<org.movies.system.areas.movies.entities.Movie>"*/-->
                     <th:block th:each="movie : ${movies}">
-                        <option th:value="${movie.id}" th:text="${movie.title}" th:selected="${movie.id.equals(projectionBinding.movie)}"></option>
+                        <option th:value="${movie.title}" th:text="${movie.title}" th:selected="${movie.id.equals(projectionBinding.movie)}"></option>
                     </th:block>
                 </select>
                 <small style="color: red" id="movieHelp" th:each="error : ${#fields.errors('movie')}" th:text="${error}"></small>

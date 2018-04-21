@@ -32,6 +32,11 @@ public class HallServiceImpl implements HallService {
         return hall;
     }
 
+    @Override
+    public Hall findByName(String name) {
+        return this.hallRepository.findFirstByName(name);
+    }
+
     private void checkHall(Hall hall) {
         if (hall == null) {
             throw new BadRequestException();

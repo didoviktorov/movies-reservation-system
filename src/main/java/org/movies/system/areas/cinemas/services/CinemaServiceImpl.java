@@ -55,6 +55,11 @@ public class CinemaServiceImpl implements CinemaService {
     }
 
     @Override
+    public Cinema findByName(String name) {
+        return this.cinemaRepository.findFirstByName(name);
+    }
+
+    @Override
     public void seedCinemas() {
         List<String> cinemasCities = new ArrayList<>() {{
             add("Varna");

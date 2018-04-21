@@ -13,7 +13,7 @@ function getCinemas() {
 
                 var col = $("<div class='col-sm-6 text-center py-2' ></div>");
 
-                var link = $("<a href='/cinema/" + data[i]["id"] + "' style='text-decoration: none'></a>");
+                var link = $("<a href='/cinema/" + data[i]["name"] + "' style='text-decoration: none'></a>");
                 var card = $("<div class='card h-100'></div>");
                 card.append("<img class='card-img-top' src='" + data[i]["imageUrl"] + "' alt='Card image cinema'>");
 

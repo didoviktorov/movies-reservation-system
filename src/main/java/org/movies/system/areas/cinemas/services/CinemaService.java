@@ -14,5 +14,7 @@ public interface CinemaService {
 
     Cinema findById(String id);
 
+    Cinema findByName(String name);
+
     void seedCinemas();
 }

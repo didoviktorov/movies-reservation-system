@@ -7,4 +7,6 @@ public interface HallService {
     void save(Hall hall);
 
     Hall findById(String id);
+
+    Hall findByName(String name);
 }

@@ -35,9 +35,9 @@ public class AjaxController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/cinema_ajax/{id}")
-    public Cinema getCinemasViaAjax(@PathVariable String id) {
-        return this.cinemaService.findById(id);
+    @RequestMapping(value = "/cinema_ajax/{name}")
+    public Cinema getCinemasViaAjax(@PathVariable String name) {
+        return this.cinemaService.findByName(name);
     }
 
     @ResponseBody

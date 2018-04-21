@@ -13,5 +13,5 @@ public interface ProjectionRepository extends JpaRepository<Projection, String> 
 
     Page<Projection> findAllByDeletedOnNullAndMovieDeletedOnNull(Pageable pageable);
 
-    Page<Projection> findAllByCinemaIdAndDeletedOnNullAndMovieDeletedOnNull(String cinema_id, Pageable pageable);
+    Page<Projection> findAllByCinemaNameAndDeletedOnNullAndMovieDeletedOnNull(String cinemaName, Pageable pageable);
 }

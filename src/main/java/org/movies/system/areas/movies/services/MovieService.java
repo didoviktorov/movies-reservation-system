@@ -15,6 +15,8 @@ public interface MovieService {
 
     Movie findById(String id);
 
+    Movie findByTitle(String title);
+
     void save(MovieBinding movieBinding);
 
     void edit(String id, MovieBinding movieBinding);
